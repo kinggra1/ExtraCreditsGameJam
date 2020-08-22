@@ -29,4 +29,9 @@ public class GameController : MonoBehaviour {
     private static void SpawnNewCustomer() {
 
     }
+
+    public void ShowDailyResults()
+    {
+
+    }
 }
