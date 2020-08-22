@@ -6,13 +6,11 @@ public class InventorySystem : MonoBehaviour {
     public static InventorySystem instance;
     public enum ResourceType { WOOD, IRON, WHEAT }
 
-    private static readonly int MAX_RESOURCE = 99;
+    private static readonly uint MAX_RESOURCE = 99;
+    private static readonly uint MAX_MONEY = 9999;
 
-    private int woodCount = 10;
-    private int ironCount = 10;
-    private int wheatCount = 10;
-
-    private Dictionary<ResourceType, int> resourceCounts = new Dictionary<ResourceType, int>();
+    private uint money;
+    private Dictionary<ResourceType, uint> resourceCounts = new Dictionary<ResourceType, uint>();
 
     private void Awake() {
         if (instance) {
@@ -23,6 +21,9 @@ public class InventorySystem : MonoBehaviour {
     }
 
     private void Start() {
+        // Initialize ya bank account.
+        money = 100;
+
         // Initialize default resource values
         resourceCounts.Add(ResourceType.WOOD, 10);
         resourceCounts.Add(ResourceType.IRON, 10);
@@ -31,8 +32,8 @@ public class InventorySystem : MonoBehaviour {
 
     // Adding may be validating a new quest, so we need to check QuestBoard for all planned quest resources.
     public bool CanAddResource(ResourceType type, uint delta) {
-        int currentCount = resourceCounts[type];
-        int incomingQuestCount = QuestSystem.instance.GetRequestedResources(type);
+        uint currentCount = resourceCounts[type];
+        uint incomingQuestCount = QuestSystem.instance.GetRequestedResources(type);
         if (currentCount + delta > MAX_RESOURCE) {
             return false;
         }
@@ -41,16 +42,37 @@ public class InventorySystem : MonoBehaviour {
 
     // Subtracting happens at the forge, so we validate against current quanitity.
     public bool CanSpendResource(ResourceType type, uint delta) {
-        int currentCount = resourceCounts[type];
+        uint currentCount = resourceCounts[type];
         if (currentCount - delta < 0) {
             return false;
         }
         return true;
     }
 
-    // Calls to this should always be validated by calling "CanChangeWood(int amount)"
+    // Calls to this should always be validated by calling "CanAddResource"
     // which also accounts for QuestBoard orders when adding.
-    public void ChangeWood() {
+    public void AddResource(ResourceType type, uint delta) {
+        resourceCounts[type] = resourceCounts[type] + delta;
+    }
 
+    // Calls to this should always be validated by calling "CanSpendResource"
+    public void SpendResource(ResourceType type, uint delta) {
+        resourceCounts[type] = resourceCounts[type] - delta;
+    }
+
+    public bool CanAddMoney(uint delta) {
+        return money + delta <= MAX_MONEY;
+    }
+
+    public bool CanSpendMoney(uint delta) {
+        return money - delta >= 0;
+    }
+
+    public void AddMoney(uint delta) {
+        money += delta;
+    }
+
+    public void SpendMoney(uint delta) {
+        money -= delta;
     }
 }

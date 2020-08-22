@@ -5,12 +5,19 @@ using UnityEngine;
 public class QuestSystem : MonoBehaviour {
     public static QuestSystem instance;
 
-    private struct Quest {
+    public GameObject postedQuestUIPrefab;
+    public GameObject questLayoutGroupUI;
+    public GameObject questEntryPanelUI;
+
+    private static readonly uint MAX_QUESTS = 5;
+    private List<Quest> quests = new List<Quest>();
+
+    public struct Quest {
         InventorySystem.ResourceType resource;
         uint amount;
         uint pricePerResource;
 
-        Quest(InventorySystem.ResourceType resource, uint amount, uint pricePerResource) {
+        public Quest(InventorySystem.ResourceType resource, uint amount, uint pricePerResource) {
             this.resource = resource;
             this.amount = amount;
             this.pricePerResource = pricePerResource;
@@ -30,7 +37,22 @@ public class QuestSystem : MonoBehaviour {
 
     }
 
-    public int GetRequestedResources(InventorySystem.ResourceType type) {
+    public void AddNewQuest(Quest quest) {
+        quests.Add(quest);
+        // Add to UI LayoutGroup.
+
+        // Hide the quest entry panel if we have max quests.
+        if (quests.Count == MAX_QUESTS) {
+            questEntryPanelUI.active = false;
+        }
+
+    }
+
+    public void CompleteQuest() {
+
+    }
+
+    public uint GetRequestedResources(InventorySystem.ResourceType type) {
         throw new System.NotImplementedException();
      }
 }
