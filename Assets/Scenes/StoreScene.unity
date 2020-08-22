@@ -1208,9 +1208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7dafb8c7829a8644b78711f264747c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  postedQuestUIPrefab: {fileID: 0}
-  questLayoutGroupUI: {fileID: 0}
-  questEntryPanelUI: {fileID: 0}
+  postedQuestUIPrefab: {fileID: 1710989871949440793, guid: 611fafa27e69a8545b9abc26af757395,
+    type: 3}
+  questLayoutGroupUI: {fileID: 598420973}
+  questEntryPanelUI: {fileID: 1435205074}
 --- !u!114 &464733427
 MonoBehaviour:
   m_ObjectHideFlags: 0
