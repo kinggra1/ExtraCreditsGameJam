@@ -65,6 +65,9 @@ public class InventorySystem : MonoBehaviour {
     }
 
     public bool CanSpendMoney(uint delta) {
+        Debug.Log(money);
+        Debug.Log(money - delta);
+        Debug.Log(money - delta >= 0);
         return money - delta >= 0;
     }
 

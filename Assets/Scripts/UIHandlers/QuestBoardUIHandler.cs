@@ -15,6 +15,7 @@ public class QuestBoardUIHandler : MonoBehaviour {
     // default price per item is determined by what's in the dropdown.
     private static readonly uint MAX_PRICE_PER_ITEM = 100;
 
+    InventorySystem.ResourceType resource;
     uint quantity;
     uint pricePerItem;
 
@@ -65,9 +66,34 @@ public class QuestBoardUIHandler : MonoBehaviour {
         RefreshUI();
     }
 
+    public void SetResource(string inputResource) {
+        switch (inputResource) {
+            case "Wood":
+                resource = InventorySystem.ResourceType.WOOD;
+                break;
+            case "Iron":
+                resource = InventorySystem.ResourceType.IRON;
+                break;
+            case "Wheat":
+                resource = InventorySystem.ResourceType.WHEAT;
+                break;
+        }
+    }
+
+    private uint NextQuestTotalCost() {
+        return quantity * pricePerItem;
+    }
+
     public void AddQuest() {
-        QuestSystem.instance.AddNewQuest(
-            new QuestSystem.Quest(InventorySystem.ResourceType.WOOD, quantity, pricePerItem));
+        Debug.Log(NextQuestTotalCost());
+        Debug.Log(InventorySystem.instance.CanSpendMoney(NextQuestTotalCost()));
+        if (InventorySystem.instance.CanSpendMoney(NextQuestTotalCost())) {
+            QuestSystem.instance.AddNewQuest(
+                new QuestSystem.Quest(InventorySystem.ResourceType.WOOD, quantity, pricePerItem));
+            ResetOrderPanel();
+        } else {
+            // TODO: Feedback for failed to post quest.
+        }
     }
 
     public void RefreshUI() {
