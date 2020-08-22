@@ -31,12 +31,15 @@ public class TimeSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime += Time.deltaTime;
-        UpdateTimeDisplay();
-        if (currentTime > SecondsPerDay)
+        if (!paused)
         {
-            setPaused(true);
-            GameController.instance.ShowDailyResults();
+            currentTime += Time.deltaTime;
+            UpdateTimeDisplay();
+            if (currentTime > SecondsPerDay)
+            {
+                setPaused(true);
+                GameController.instance.ShowDailyResults();
+            }
         }
     }
 

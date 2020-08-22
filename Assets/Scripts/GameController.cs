@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour {
 
     public static GameController instance;
 
+    public GameObject ResultsCanvas;
+
     private void Awake() {
         if (instance) {
             Destroy(this.gameObject);
@@ -32,6 +34,6 @@ public class GameController : MonoBehaviour {
 
     public void ShowDailyResults()
     {
-
+        ResultsCanvas.SetActive(true);
     }
 }
