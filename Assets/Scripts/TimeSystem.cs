@@ -33,6 +33,11 @@ public class TimeSystem : MonoBehaviour
     {
         currentTime += Time.deltaTime;
         UpdateTimeDisplay();
+        if (currentTime > SecondsPerDay)
+        {
+            setPaused(true);
+            GameController.instance.ShowDailyResults();
+        }
     }
 
     void UpdateTimeDisplay()
@@ -45,5 +50,10 @@ public class TimeSystem : MonoBehaviour
     {
         currentDay += 1;
         currentTime = 0;
+    }
+
+    public void setPaused(bool isPaused)
+    {
+        paused = isPaused;
     }
 }
