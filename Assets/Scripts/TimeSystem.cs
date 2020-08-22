@@ -1,10 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeSystem : MonoBehaviour
 {
     public static TimeSystem instance;
+
+    public int SecondsPerDay = 360;
+    public Text timeDisplay;
+
+    private int currentDay = 0;
+    private float currentTime = 0;
+    private bool paused = false;
 
     private void Awake() {
         if (instance) {
@@ -23,6 +31,19 @@ public class TimeSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        currentTime += Time.deltaTime;
+        UpdateTimeDisplay();
+    }
+
+    void UpdateTimeDisplay()
+    {
+        string timeString = $"Day {currentDay}, Time: {(int)currentTime}";
+        timeDisplay.text = timeString;
+    }
+
+    public void startNewDay()
+    {
+        currentDay += 1;
+        currentTime = 0;
     }
 }
