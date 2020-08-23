@@ -99,6 +99,10 @@ public class InventorySystem : MonoBehaviour {
         RefreshUI();
     }
 
+    public uint GetResourceCount(ResourceType resource) {
+        return resourceCounts[resource];
+    }
+
     public bool CanAddMoney(uint delta) {
         return money + delta <= MAX_MONEY;
     }
