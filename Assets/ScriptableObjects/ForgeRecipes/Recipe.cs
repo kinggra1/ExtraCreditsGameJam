@@ -7,7 +7,8 @@ public class Recipe : ScriptableObject {
 
     [SerializeField]
     private InventorySystem.SellableItem resultItem;
-
+    [SerializeField]
+    private uint saleValue;
     // Collection of ingredients required to create this recipe
     [SerializeField]
     private Ingredient[] ingredients;
@@ -29,6 +30,10 @@ public class Recipe : ScriptableObject {
 
     public Ingredient[] GetIngredients() {
         return ingredients;
+    }
+
+    public uint GetValue() {
+        return saleValue;
     }
 }
 

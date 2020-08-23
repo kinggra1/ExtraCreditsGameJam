@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BreadRecipe
   m_EditorClassIdentifier: 
   resultItem: 1
+  saleValue: 3
   ingredients:
   - resource: 3
     quantity: 2

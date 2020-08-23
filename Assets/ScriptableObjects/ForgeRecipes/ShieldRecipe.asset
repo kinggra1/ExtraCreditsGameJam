@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: ShieldRecipe
   m_EditorClassIdentifier: 
   resultItem: 2
+  saleValue: 10
   ingredients:
   - resource: 1
     quantity: 2
