@@ -67,7 +67,13 @@ public class CustomerSystem : MonoBehaviour
             questTypeDict[QuestType.BASIC_FIGHT],
             questTypeDict[QuestType.FOOD]
         };
-        Customer noviceCustomer = new Customer(noviceSprite, noviceDesiredItems, noviceQuests);
+        string[] noviceDialogue = new string[]
+        {
+            "It's my first day as an adventurer! I'm not scared at all... nope, not even a little.",
+            "I tried beating up monsters with a stick, but that didn't work out so well. Guess I'll buy some equipment now!",
+            "I'm going to be the best adventurer EVER. Right after I learn how to use a sword, that is."
+        };
+        Customer noviceCustomer = new Customer(noviceSprite, noviceDesiredItems, noviceQuests, noviceDialogue);
         customerTypeDict.Add(CustomerType.NOVICE, noviceCustomer);
 
         // Warrior
@@ -82,7 +88,13 @@ public class CustomerSystem : MonoBehaviour
             questTypeDict[QuestType.ADVANCED_FIGHT],
             questTypeDict[QuestType.FOOD]
         };
-        Customer warriorCustomer = new Customer(warriorSprite, warriorDesiredItems, warriorQuests);
+        string[] warriorDialogue = new string[]
+        {
+            "One of these days, I'll steal a dragon's horde and retire on the gold. Maybe I'll run a shop like you! Har, har!",
+            "About time I get some replacement gear. I've bashed in enough goblin heads that my old weapons are getting dents in 'em.",
+            "Wooden swords? Pfft. I've used toothpicks stronger than those."
+        };
+        Customer warriorCustomer = new Customer(warriorSprite, warriorDesiredItems, warriorQuests, warriorDialogue);
         customerTypeDict.Add(CustomerType.WARRIOR, warriorCustomer);
     }
 
@@ -104,12 +116,14 @@ public class Customer
     public Sprite sprite;
     public InventorySystem.SellableItem[] desiredItems;
     public Quest[] quests;
+    public string[] dialogue;
 
-    public Customer(Sprite sprite, InventorySystem.SellableItem[] desiredItems, Quest[] quests)
+    public Customer(Sprite sprite, InventorySystem.SellableItem[] desiredItems, Quest[] quests, string[] dialogue)
     {
         this.sprite = sprite;
         this.desiredItems = desiredItems;
         this.quests = quests;
+        this.dialogue = dialogue;
     }
 }
 
