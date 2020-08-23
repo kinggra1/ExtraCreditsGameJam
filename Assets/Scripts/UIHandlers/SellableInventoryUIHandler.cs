@@ -7,6 +7,10 @@ public class SellableInventoryUIHandler : MonoBehaviour{
     public GameObject inventoryGridLayout;
 
     void Start() {
+        foreach (Transform child in inventoryGridLayout.transform) {
+            GameObject.Destroy(child.gameObject);
+        }
+
         Dictionary<InventorySystem.SellableItem, uint> items = InventorySystem.instance.GetSellableItems();
         foreach (KeyValuePair<InventorySystem.SellableItem, uint> item in items) {
             GameObject itemPanel = Instantiate(inventoryItemPrefab, inventoryGridLayout.transform);
@@ -15,5 +19,9 @@ public class SellableInventoryUIHandler : MonoBehaviour{
             Sprite sprite = IconLookup.instance.ForSellable(item.Key);
             ingredientUI.SetContent(sprite, item.Value);
         }
+    }
+
+    public void SetCustomerData(int moneyAvailable) {
+
     }
 }
