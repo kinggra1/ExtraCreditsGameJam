@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 
     public static GameController instance;
 
+    public GameObject CustomersCanvas;
     public GameObject ResultsCanvas;
     public GameObject CustomerPrefab;
     
@@ -45,10 +46,9 @@ public class GameController : MonoBehaviour {
 
     public void SpawnNewCustomer()
     {
-        Instantiate(CustomerPrefab, new Vector3(4, -2, 0), Quaternion.identity);
+        Instantiate(CustomerPrefab, CustomersCanvas.transform);
         // set next customer spawn time
         int timeUntilNextCustomer = rand.Next(MinTimeBetweenCustomers, MaxTimeBetweenCustomers);
-        Debug.Log(timeUntilNextCustomer);
         timeToSpawnNewCustomer += timeUntilNextCustomer;
     }
 

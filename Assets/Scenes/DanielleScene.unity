@@ -880,6 +880,8 @@ MonoBehaviour:
   ResultsCanvas: {fileID: 2077520675}
   CustomerPrefab: {fileID: 9149402725125049430, guid: a96f4d0c824646a4c8a354ce34f89925,
     type: 3}
+  MinTimeBetweenCustomers: 3
+  MaxTimeBetweenCustomers: 7
 --- !u!4 &464733425
 Transform:
   m_ObjectHideFlags: 0
