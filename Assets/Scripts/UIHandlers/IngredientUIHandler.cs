@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class IngredientUIHandler : MonoBehaviour {
     public Image resourceImage;
+    public Image notEnoughFilter;
     public Text quantityText;
 
     public void SetContent(Sprite resourceSprite, uint quantityText) {
@@ -14,10 +15,6 @@ public class IngredientUIHandler : MonoBehaviour {
     }
 
     public void SetFaded(bool fade) {
-        if (fade) {
-            resourceImage.color = Color.red;
-        } else {
-            resourceImage.color = Color.white;
-        }
+        notEnoughFilter.enabled = fade;
     }
 }

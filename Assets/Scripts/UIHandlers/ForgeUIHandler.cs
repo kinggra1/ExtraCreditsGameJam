@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ForgeUIHandler : MonoBehaviour {
 
     public GameObject forgeRecipePanelPrefab;
     public GameObject recipeLayoutGroup;
+
+    public Scrollbar scrollbar;
 
     private List<RecipeUIHandler> recipes = new List<RecipeUIHandler>();
 
@@ -23,6 +26,7 @@ public class ForgeUIHandler : MonoBehaviour {
             recipeUI.SetRecipe(recipe);
             recipes.Add(recipeUI);
         }
+        RefreshUI();
     }
 
     public void RefreshUI() {
@@ -36,6 +40,9 @@ public class ForgeUIHandler : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+        // Hacky handling of scoll bar scaling :^(
+        if (transform.localScale.magnitude < 0.9f) {
+            scrollbar.value = 1f;
+        }
     }
 }
