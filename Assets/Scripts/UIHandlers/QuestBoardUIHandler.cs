@@ -95,6 +95,6 @@ public class QuestBoardUIHandler : MonoBehaviour {
 
     public void RefreshUI() {
         quantityText.text = quantity.ToString();
-        pricePerItemText.text = String.Format("{0}g", pricePerItem);
+        pricePerItemText.text = String.Format("{0}", pricePerItem);
     }
 }

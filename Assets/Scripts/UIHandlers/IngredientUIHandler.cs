@@ -10,7 +10,7 @@ public class IngredientUIHandler : MonoBehaviour {
 
     public void SetContent(Sprite resourceSprite, uint quantityText) {
         resourceImage.sprite = resourceSprite;
-        this.quantityText.text = String.Format("x{0}", quantityText);
+        this.quantityText.text = String.Format("{0}", quantityText);
     }
 
     public void SetFaded(bool fade) {

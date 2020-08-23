@@ -52,7 +52,7 @@ public class QuestSystem : MonoBehaviour {
         quests.Add(questPanelScript);
         int index = quests.Count - 1;
         questPanelScript.questIndex = index;
-        questPanelScript.questDuration = 5f; // TODO: Set actual duration based on prices.
+        questPanelScript.questDuration = 30f; // TODO: Set actual duration based on prices.
         questPanelScript.quest = quest;
 
         // Parenting to the layout group allows the UI to dynamically position this Quest.
@@ -89,6 +89,7 @@ public class QuestSystem : MonoBehaviour {
     private void ReindexQuests() {
         for (int i = 0; i < quests.Count; i++) {
             quests[i].questIndex = i;
+            quests[i].gameObject.transform.SetSiblingIndex(i);
         }
 
         // Place QuestEntryPane at the end of all quests, and show if it is currently hidden.

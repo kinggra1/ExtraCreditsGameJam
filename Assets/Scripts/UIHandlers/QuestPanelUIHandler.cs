@@ -10,13 +10,18 @@ public class QuestPanelUIHandler : MonoBehaviour
     public int questIndex;
     public float questDuration;
 
+    public Image resourceImage;
     public Text amount;
     public Text type;
     public Text totalPrice;
+    public Image progressBar;
 
     private float timer;
 
     private void Start() {
+        Sprite iconImage = IconLookup.instance.ForResource(quest.resource);
+        resourceImage.sprite = iconImage;
+
         amount.text = String.Format("x{0}", quest.amount);
         type.text = InventorySystem.instance.ResourceTypeToString(quest.resource);
         totalPrice.text = String.Format("{0}g", quest.TotalCost());
@@ -27,8 +32,8 @@ public class QuestPanelUIHandler : MonoBehaviour
         if (timer > questDuration) {
             QuestSystem.instance.CompleteQuest(questIndex);
         }
-        
-        // set progress bar to be timer/questDuration.
+
+        progressBar.fillAmount = timer / questDuration;
     }
 
     public void RemoveQuestClicked() {

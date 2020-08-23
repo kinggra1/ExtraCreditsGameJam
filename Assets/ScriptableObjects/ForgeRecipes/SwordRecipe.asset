@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fb3dc0c6bb88534893010ec826eb1e1, type: 3}
   m_Name: SwordRecipe
   m_EditorClassIdentifier: 
-  itemResult: 3
+  resultItem: 3
   ingredients:
   - resource: 1
     quantity: 2

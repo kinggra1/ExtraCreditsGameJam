@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RecipeUIHandler : MonoBehaviour {
+    public Image resultItemImage;
     public GameObject ingredientUIPrefab;
     public GameObject ingredientHorizontalLayout;
 
@@ -22,11 +24,14 @@ public class RecipeUIHandler : MonoBehaviour {
 
     public void SetRecipe(Recipe recipe) {
         this.recipe = recipe;
+        resultItemImage.sprite = IconLookup.instance.ForSellable(recipe.GetResultItem());
+
         foreach (Ingredient ingredient in recipe.GetIngredients()) {
             GameObject ingredientPanel = Instantiate(ingredientUIPrefab, ingredientHorizontalLayout.transform);
             IngredientUIHandler ingredientUI = ingredientPanel.GetComponent<IngredientUIHandler>();
 
-            ingredientUI.SetContent(InventorySystem.instance.LookupImage(ingredient.resource), ingredient.quantity);
+            Sprite iconImage = IconLookup.instance.ForResource(ingredient.resource);
+            ingredientUI.SetContent(iconImage, ingredient.quantity);
             ingredientPanels.Add(ingredientUI);
         }
     }

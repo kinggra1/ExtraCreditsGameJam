@@ -6,7 +6,7 @@ using UnityEngine;
 public class Recipe : ScriptableObject {
 
     [SerializeField]
-    private InventorySystem.SellableItem itemResult;
+    private InventorySystem.SellableItem resultItem;
 
     // Collection of ingredients required to create this recipe
     [SerializeField]
@@ -21,6 +21,10 @@ public class Recipe : ScriptableObject {
             }
         }
         return true;
+    }
+
+    public InventorySystem.SellableItem GetResultItem() {
+        return resultItem;
     }
 
     public Ingredient[] GetIngredients() {

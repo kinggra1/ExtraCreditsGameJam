@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4066a1a9d393e489ccb23f5f09bfab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultItemImage: {fileID: 1710989872859026601}
   ingredientUIPrefab: {fileID: 5561235934226526113, guid: ab76023e7296184478caf05414dd32ea,
     type: 3}
   ingredientHorizontalLayout: {fileID: 7339163878728882379}

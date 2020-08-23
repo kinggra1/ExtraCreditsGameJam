@@ -23,11 +23,6 @@ public class InventorySystem : MonoBehaviour {
     public Text ironText;
     public Text wheatText;
 
-    public Sprite moneyImage;
-    public Sprite woodImage;
-    public Sprite ironImage;
-    public Sprite wheatImage;
-
     public ForgeUIHandler forgeUI;
 
     private static readonly uint MAX_RESOURCE = 99;
@@ -35,7 +30,7 @@ public class InventorySystem : MonoBehaviour {
 
     private uint money;
     private Dictionary<ResourceType, uint> resourceCounts = new Dictionary<ResourceType, uint>();
-    private Dictionary<SellableItem, uint> sellableItem = new Dictionary<SellableItem, uint>();
+    private Dictionary<SellableItem, uint> sellableItemCounts = new Dictionary<SellableItem, uint>();
 
     private void Awake() {
         if (instance) {
@@ -43,9 +38,7 @@ public class InventorySystem : MonoBehaviour {
             return;
         }
         instance = this;
-    }
 
-    private void Start() {
         // Initialize ya bank account.
         money = 100;
 
@@ -55,31 +48,17 @@ public class InventorySystem : MonoBehaviour {
         resourceCounts.Add(ResourceType.WHEAT, 10);
 
         // Initialize shop inventory
-        sellableItem.Add(SellableItem.BREAD, 5);
+        sellableItemCounts.Add(SellableItem.BREAD, 5);
 
-        sellableItem.Add(SellableItem.WOODEN_SWORD, 5);
-        sellableItem.Add(SellableItem.WOODEN_SHIELD, 5);
+        sellableItemCounts.Add(SellableItem.WOODEN_SWORD, 5);
+        sellableItemCounts.Add(SellableItem.WOODEN_SHIELD, 5);
 
-        sellableItem.Add(SellableItem.IRON_SWORD, 5);
-        sellableItem.Add(SellableItem.IRON_SHIELD, 5);
-
-        RefreshUI();
+        sellableItemCounts.Add(SellableItem.IRON_SWORD, 5);
+        sellableItemCounts.Add(SellableItem.IRON_SHIELD, 5);
     }
 
-    public Sprite LookupImage(ResourceType type) {
-        switch (type) {
-            case ResourceType.NONE:
-                return null;
-            case ResourceType.WOOD:
-                return woodImage;
-            case ResourceType.IRON:
-                return ironImage;
-            case ResourceType.WHEAT:
-                return wheatImage;
-            default:
-                return null;
-        } 
-        
+    private void Start() {
+        RefreshUI();
     }
 
     public ResourceType StringToResourceType(string name) {
@@ -162,12 +141,12 @@ public class InventorySystem : MonoBehaviour {
     }
 
     public bool CanSellItem(SellableItem item) {
-        uint count = sellableItem[item];
+        uint count = sellableItemCounts[item];
         return count > 0;
     }
 
     public void SellItem(SellableItem item, uint money) {
-        sellableItem[item] = sellableItem[item] - 1;
+        sellableItemCounts[item] = sellableItemCounts[item] - 1;
         AddMoney(money);
         RefreshUI();
     }
@@ -192,11 +171,15 @@ public class InventorySystem : MonoBehaviour {
         RefreshUI();
     }
 
+    public Dictionary<SellableItem, uint> GetSellableItems() {
+        return sellableItemCounts;
+    }
+
     public void RefreshUI() {
-        moneyText.text = String.Format("Money: {0}g", money);
-        woodText.text = String.Format("Wood: {0}", resourceCounts[ResourceType.WOOD]);
-        ironText.text = String.Format("Iron: {0}", resourceCounts[ResourceType.IRON]);
-        wheatText.text = String.Format("Wheat: {0}", resourceCounts[ResourceType.WHEAT]);
+        moneyText.text = String.Format("{0}", money);
+        woodText.text = String.Format("{0}", resourceCounts[ResourceType.WOOD]);
+        ironText.text = String.Format("{0}", resourceCounts[ResourceType.IRON]);
+        wheatText.text = String.Format("{0}", resourceCounts[ResourceType.WHEAT]);
 
         forgeUI.RefreshUI();
     }
