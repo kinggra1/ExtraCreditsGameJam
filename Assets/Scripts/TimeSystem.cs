@@ -58,4 +58,9 @@ public class TimeSystem : MonoBehaviour
     {
         paused = isPaused;
     }
+
+    public int GetCurrentTime()
+    {
+        return (int)currentTime;
+    }
 }

@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
 
     public GameObject ResultsCanvas;
+    public GameObject CustomerPrefab;
 
     private void Awake() {
         if (instance) {
@@ -24,12 +25,6 @@ public class GameController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         
-    }
-
-
-    // Maybe some stuff like this would live in GameController?
-    private static void SpawnNewCustomer() {
-
     }
 
     public void ShowDailyResults()
