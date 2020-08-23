@@ -9,6 +9,9 @@ public class GameController : MonoBehaviour {
 
     public GameObject CustomersCanvas;
     public GameObject ResultsCanvas;
+    public GameObject questBoardCanvas;
+    public GameObject forgeCanvas;
+
     public GameObject CustomerPrefab;
     
     // time between customers will be randomly selected between these
@@ -61,6 +64,22 @@ public class GameController : MonoBehaviour {
     public void HideDailyResults()
     {
         ResultsCanvas.SetActive(false);
+    }
+
+    public void ShowQuestBoard() {
+        questBoardCanvas.SetActive(true);
+    }
+
+    public void HideQuestBoard() {
+        questBoardCanvas.SetActive(false);
+    }
+
+    public void ShowForge() {
+        forgeCanvas.SetActive(true);
+    }
+
+    public void HideForge() {
+        forgeCanvas.SetActive(false);
     }
 
     public void GoToNextDay()
