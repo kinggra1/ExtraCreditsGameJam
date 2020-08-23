@@ -842,7 +842,6 @@ GameObject:
   - component: {fileID: 464733423}
   - component: {fileID: 464733426}
   - component: {fileID: 464733427}
-  - component: {fileID: 464733428}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -879,7 +878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ResultsCanvas: {fileID: 2077520675}
-  CustomerPrefab: {fileID: 4196713470254168521, guid: a96f4d0c824646a4c8a354ce34f89925,
+  CustomerPrefab: {fileID: 9149402725125049430, guid: a96f4d0c824646a4c8a354ce34f89925,
     type: 3}
 --- !u!4 &464733425
 Transform:
@@ -925,19 +924,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SecondsPerDay: 40
   timeDisplay: {fileID: 1488282253}
---- !u!114 &464733428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 464733422}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5441a660db2e3c644959f89890213e75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WaitTime: 0
 --- !u!1 &496925255
 GameObject:
   m_ObjectHideFlags: 0

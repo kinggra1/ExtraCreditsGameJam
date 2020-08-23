@@ -63,4 +63,9 @@ public class TimeSystem : MonoBehaviour
     {
         return (int)currentTime;
     }
+
+    public bool IsPastClosingTime()
+    {
+        return currentTime > SecondsPerDay;
+    }
 }
