@@ -37,7 +37,6 @@ public class TimeSystem : MonoBehaviour
             UpdateTimeDisplay();
             if (currentTime > SecondsPerDay)
             {
-                setPaused(true);
                 GameController.instance.ShowDailyResults();
             }
         }
@@ -49,13 +48,13 @@ public class TimeSystem : MonoBehaviour
         timeDisplay.text = timeString;
     }
 
-    public void startNewDay()
+    public void IncrementDay()
     {
         currentDay += 1;
         currentTime = 0;
     }
 
-    public void setPaused(bool isPaused)
+    public void SetPaused(bool isPaused)
     {
         paused = isPaused;
     }
