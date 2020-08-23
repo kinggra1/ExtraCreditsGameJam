@@ -955,6 +955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ResultsCanvas: {fileID: 2077520675}
+  CustomerPrefab: {fileID: 0}
 --- !u!4 &464733425
 Transform:
   m_ObjectHideFlags: 0
