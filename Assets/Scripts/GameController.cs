@@ -27,12 +27,6 @@ public class GameController : MonoBehaviour {
         
     }
 
-
-    // Maybe some stuff like this would live in GameController?
-    private static void SpawnNewCustomer() {
-
-    }
-
     public void ShowDailyResults()
     {
         TimeSystem.instance.SetPaused(true);
