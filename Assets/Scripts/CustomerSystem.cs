@@ -22,10 +22,23 @@ public class CustomerSystem : MonoBehaviour
         instance = this;
 
         // Initialize customer types
-        Customer noviceCustomer = new Customer(noviceSprite);
+        // Novice
+        InventorySystem.SellableItem[] noviceDesiredItems = new InventorySystem.SellableItem[] {
+            InventorySystem.SellableItem.BREAD,
+            InventorySystem.SellableItem.WOODEN_SHIELD,
+            InventorySystem.SellableItem.WOODEN_SWORD
+        };
+        Customer noviceCustomer = new Customer(noviceSprite, noviceDesiredItems);
         customerTypeDict.Add(CustomerType.NOVICE, noviceCustomer);
 
-        Customer warriorCustomer = new Customer(warriorSprite);
+        // Warrior
+        InventorySystem.SellableItem[] warriorDesiredItems = new InventorySystem.SellableItem[]
+        {
+            InventorySystem.SellableItem.BREAD,
+            InventorySystem.SellableItem.IRON_SHIELD,
+            InventorySystem.SellableItem.IRON_SWORD
+        };
+        Customer warriorCustomer = new Customer(warriorSprite, warriorDesiredItems);
         customerTypeDict.Add(CustomerType.WARRIOR, warriorCustomer);
     }
 
@@ -45,9 +58,11 @@ public class CustomerSystem : MonoBehaviour
 public class Customer
 {
     public Sprite sprite;
+    public InventorySystem.SellableItem[] desiredItems;
 
-    public Customer(Sprite sprite)
+    public Customer(Sprite sprite, InventorySystem.SellableItem[] desiredItems)
     {
         this.sprite = sprite;
+        this.desiredItems = desiredItems;
     }
 }
