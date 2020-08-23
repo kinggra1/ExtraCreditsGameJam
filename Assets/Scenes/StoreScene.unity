@@ -884,7 +884,7 @@ RectTransform:
   - {fileID: 498682928}
   - {fileID: 2077100226}
   m_Father: {fileID: 1852180754}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2322,7 +2322,7 @@ RectTransform:
   - {fileID: 303282428}
   - {fileID: 1021758630}
   m_Father: {fileID: 1852180754}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2599,7 +2599,7 @@ RectTransform:
   - {fileID: 516573730}
   - {fileID: 240561714}
   m_Father: {fileID: 1852180754}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2991,7 +2991,7 @@ RectTransform:
   - {fileID: 1579597759}
   - {fileID: 2087847139}
   m_Father: {fileID: 1852180754}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3198,6 +3198,41 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 335, y: -50}
   m_SizeDelta: {x: 20, y: 160}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &909345663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 909345664}
+  m_Layer: 5
+  m_Name: CustomerCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &909345664
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909345663}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1852180754}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &918849150
 GameObject:
@@ -6646,6 +6681,7 @@ RectTransform:
   - {fileID: 1581651812}
   - {fileID: 2121372036}
   - {fileID: 1737700491}
+  - {fileID: 909345664}
   - {fileID: 772969185}
   - {fileID: 852106068}
   - {fileID: 237887585}
@@ -6835,14 +6871,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuBackgroundBlurImage: {fileID: 1737700492}
-  CustomersCanvas: {fileID: 0}
+  CustomersCanvas: {fileID: 909345663}
   ResultsCanvas: {fileID: 237887584}
   questBoardCanvas: {fileID: 772969184}
   forgeCanvas: {fileID: 852106067}
   sellingMenuCanvas: {fileID: 650272301}
-  CustomerPrefab: {fileID: 0}
-  MinTimeBetweenCustomers: 0
-  MaxTimeBetweenCustomers: 0
+  CustomerPrefab: {fileID: 3130475906012470593, guid: a96f4d0c824646a4c8a354ce34f89925,
+    type: 3}
+  MinTimeBetweenCustomers: 5
+  MaxTimeBetweenCustomers: 10
 --- !u!4 &1911168867
 Transform:
   m_ObjectHideFlags: 0
