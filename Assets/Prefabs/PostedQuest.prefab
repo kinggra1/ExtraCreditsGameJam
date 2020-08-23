@@ -172,6 +172,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56ce4624e1814404488e688abf06de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questIndex: 0
+  questDuration: 0
+  amount: {fileID: 1710989872461792304}
+  type: {fileID: 1710989872730349189}
+  totalPrice: {fileID: 1710989871789131367}
 --- !u!1 &1710989872461792270
 GameObject:
   m_ObjectHideFlags: 0

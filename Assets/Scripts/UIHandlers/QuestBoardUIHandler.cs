@@ -20,10 +20,16 @@ public class QuestBoardUIHandler : MonoBehaviour {
     uint pricePerItem;
 
     public Text quantityText;
+    public Dropdown resourceDropdown;
     public Text pricePerItemText;
 
     // Start is called before the first frame update
     void Start() {
+        resourceDropdown.onValueChanged.AddListener(delegate {
+            SetResource(resourceDropdown);
+        });
+        SetResource(resourceDropdown);
+
         ResetOrderPanel();
     }
 
@@ -66,18 +72,11 @@ public class QuestBoardUIHandler : MonoBehaviour {
         RefreshUI();
     }
 
-    public void SetResource(string inputResource) {
-        switch (inputResource) {
-            case "Wood":
-                resource = InventorySystem.ResourceType.WOOD;
-                break;
-            case "Iron":
-                resource = InventorySystem.ResourceType.IRON;
-                break;
-            case "Wheat":
-                resource = InventorySystem.ResourceType.WHEAT;
-                break;
-        }
+    public void SetResource(Dropdown dropdown) {
+        resource = InventorySystem.instance.StringToResourceType(dropdown.options[dropdown.value].text);
+
+        // TODO: Based on resource selected, update pricePerItem? Maybe too complex for first gameplay pass.
+
     }
 
     private uint NextQuestTotalCost() {
@@ -85,11 +84,9 @@ public class QuestBoardUIHandler : MonoBehaviour {
     }
 
     public void AddQuest() {
-        Debug.Log(NextQuestTotalCost());
-        Debug.Log(InventorySystem.instance.CanSpendMoney(NextQuestTotalCost()));
         if (InventorySystem.instance.CanSpendMoney(NextQuestTotalCost())) {
             QuestSystem.instance.AddNewQuest(
-                new QuestSystem.Quest(InventorySystem.ResourceType.WOOD, quantity, pricePerItem));
+                new QuestSystem.Quest(resource, quantity, pricePerItem));
             ResetOrderPanel();
         } else {
             // TODO: Feedback for failed to post quest.
