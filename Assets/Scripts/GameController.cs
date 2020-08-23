@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
 
     public GameObject ResultsCanvas;
+    public GameObject CustomerPrefab;
 
     private void Awake() {
         if (instance) {
