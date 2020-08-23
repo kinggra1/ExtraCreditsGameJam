@@ -4,10 +4,13 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "Recipe.asset", menuName = "Crafting/Recipe")]
 public class Recipe : ScriptableObject {
+
+    [SerializeField]
+    private InventorySystem.SellableItem itemResult;
+
     // Collection of ingredients required to create this recipe
     [SerializeField]
-    protected List<Ingredient> ingredients;
-
+    private Ingredient[] ingredients;
 
     // Override in subtypes for any special behavior to determine if the player can consume.
     public bool CanCraft() {
@@ -18,6 +21,10 @@ public class Recipe : ScriptableObject {
             }
         }
         return true;
+    }
+
+    public Ingredient[] GetIngredients() {
+        return ingredients;
     }
 }
 

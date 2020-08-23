@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ForgeSystem : MonoBehaviour {
+    public static ForgeSystem instance;
 
     public Recipe[] recipes;
 
-    // Start is called before the first frame update
-    void Start() {
-        
+    private void Awake() {
+        if (instance) {
+            Destroy(this.gameObject);
+            return;
+        }
+        instance = this;
     }
 
     // Update is called once per frame
     void Update() {
-        
+
+    }
+
+    public Recipe[] GetRecipes() {
+        return recipes;
     }
 }

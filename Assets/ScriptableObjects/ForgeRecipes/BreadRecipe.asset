@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fb3dc0c6bb88534893010ec826eb1e1, type: 3}
-  m_Name: SwordRecipe
+  m_Name: BreadRecipe
   m_EditorClassIdentifier: 
+  itemResult: 1
   ingredients:
-  - resource: 2
+  - resource: 3
     quantity: 2
-  - resource: 1
-    quantity: 1
