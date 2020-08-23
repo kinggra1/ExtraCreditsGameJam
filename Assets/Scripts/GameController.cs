@@ -34,6 +34,19 @@ public class GameController : MonoBehaviour {
 
     public void ShowDailyResults()
     {
+        TimeSystem.instance.SetPaused(true);
         ResultsCanvas.SetActive(true);
+    }
+
+    public void HideDailyResults()
+    {
+        ResultsCanvas.SetActive(false);
+    }
+
+    public void GoToNextDay()
+    {
+        TimeSystem.instance.IncrementDay();
+        HideDailyResults();
+        TimeSystem.instance.SetPaused(false);
     }
 }
