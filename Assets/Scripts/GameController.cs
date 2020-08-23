@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
     // when the next customer will be spawned
     private int timeToSpawnNewCustomer = 5;
 
-    private System.Random rand;
+    public System.Random Rand;
 
     private void Awake() {
         if (instance) {
@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        rand = new System.Random();
+        Rand = new System.Random();
 
         questBoardCanvas.SetActive(true);
         questBoardCanvas.transform.localScale = Vector3.zero;
@@ -61,9 +61,10 @@ public class GameController : MonoBehaviour {
 
     public void SpawnNewCustomer()
     {
-        Instantiate(CustomerPrefab, CustomersCanvas.transform);
+        GameObject newCustomer = Instantiate(CustomerPrefab, CustomersCanvas.transform);
+        
         // set next customer spawn time
-        int timeUntilNextCustomer = rand.Next(MinTimeBetweenCustomers, MaxTimeBetweenCustomers);
+        int timeUntilNextCustomer = Rand.Next(MinTimeBetweenCustomers, MaxTimeBetweenCustomers);
         timeToSpawnNewCustomer += timeUntilNextCustomer;
     }
 
