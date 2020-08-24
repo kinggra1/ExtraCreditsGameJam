@@ -96,6 +96,7 @@ public class SellableInventoryUIHandler : MonoBehaviour{
 
     private void CompleteTheSale() {
         AudioController.instance.PlayPurchaseSound(CalculateCartValue());
+        ShopkeeperController.instance.SendOffCustomer();
         foreach (CartItemUIHandler cartItem in cartItems) {
             Recipe recipe = cartItem.recipe;
             // TODO: Unchecked removal may not be safe.
