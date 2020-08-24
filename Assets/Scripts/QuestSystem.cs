@@ -54,7 +54,12 @@ public class QuestSystem : MonoBehaviour {
         quests.Add(questPanelScript);
         int index = quests.Count - 1;
         questPanelScript.questIndex = index;
-        questPanelScript.questDuration = 30f; // TODO: Set actual duration based on prices.
+
+        int recommendedPrice = (int)InventorySystem.instance.LookupDefaultPrice(quest.resource);
+        int purchasePrice = (int)quest.pricePerResource;
+        int questDuration = 30 + (recommendedPrice - purchasePrice) * 10;
+        questDuration = Mathf.Clamp(questDuration, 10, 50);
+        questPanelScript.questDuration = questDuration; // TODO: Set actual duration based on prices.
         questPanelScript.quest = quest;
 
         // Parenting to the layout group allows the UI to dynamically position this Quest.

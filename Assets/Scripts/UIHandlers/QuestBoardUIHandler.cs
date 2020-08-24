@@ -68,7 +68,7 @@ public class QuestBoardUIHandler : MonoBehaviour {
     }
 
     public void DecrementQuantity() {
-        if (quantity > 0) {
+        if (quantity > 1) {
             quantity--;
         }
         RefreshUI();
@@ -82,7 +82,7 @@ public class QuestBoardUIHandler : MonoBehaviour {
     }
 
     public void DecrementPricePerItem() {
-        if (pricePerItem > 0) {
+        if (pricePerItem > 1) {
             pricePerItem--;
         }
         RefreshUI();
