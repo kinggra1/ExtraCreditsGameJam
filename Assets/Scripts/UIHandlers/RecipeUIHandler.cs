@@ -9,6 +9,7 @@ public class RecipeUIHandler : MonoBehaviour {
     public GameObject ingredientHorizontalLayout;
     public GameObject blurPanel;
     public GameObject invisiblePanel;
+    public Text inventoryQuantityText;
     public Image progressBar;
 
     private Recipe recipe;
@@ -75,6 +76,7 @@ public class RecipeUIHandler : MonoBehaviour {
                 blurPanel.SetActive(false);
             }
         }
+        inventoryQuantityText.text = string.Format("({0})", InventorySystem.instance.GetSellableItemCount(recipe.GetResultItem()));
         return allValid;
     }
 

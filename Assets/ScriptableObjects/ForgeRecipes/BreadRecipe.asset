@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resultItem: 1
   forgeTime: 2
-  saleValue: 5
+  saleValue: 10
   ingredients:
   - resource: 3
     quantity: 2

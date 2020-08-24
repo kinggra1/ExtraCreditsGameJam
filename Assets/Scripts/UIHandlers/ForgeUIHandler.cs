@@ -13,10 +13,13 @@ public class ForgeUIHandler : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        RefreshUI();
+    }
+
+    public void RefreshUI() {
         foreach (Transform child in recipeLayoutGroup.transform) {
             GameObject.Destroy(child.gameObject);
         }
-
         // Initialize with Recipes from ForgeSystem.
         foreach (Recipe recipe in ForgeSystem.instance.GetRecipes()) {
             GameObject recipePanel = Instantiate(forgeRecipePanelPrefab, recipeLayoutGroup.transform);
@@ -24,16 +27,7 @@ public class ForgeUIHandler : MonoBehaviour {
 
             recipeUI.SetRecipe(recipe);
             recipes.Add(recipeUI);
-        }
-        RefreshUI();
-    }
-
-    public void RefreshUI() {
-        bool allValid = true;
-        foreach (RecipeUIHandler recipePanel in recipes) {
-            if (!recipePanel.RefreshUI()) {
-                allValid = false;
-            }
+            recipeUI.RefreshUI();
         }
     }
 

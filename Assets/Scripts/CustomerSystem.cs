@@ -14,11 +14,11 @@ public class CustomerSystem : MonoBehaviour
     public GameObject novicePrefab;
     public GameObject warriorPrefab;
 
-    public enum CustomerType { NOVICE, WARRIOR }
+    public enum CustomerType { PEASANT, NOVICE, WARRIOR }
 
     private Dictionary<CustomerType, CustomerParameters> customerTypeDict = new Dictionary<CustomerType, CustomerParameters>();
 
-    private enum QuestType { BASIC_FIGHT, ADVANCED_FIGHT, FOOD }
+    private enum QuestType { BASIC_FIGHT, ADVANCED_FIGHT, FOOD, SWORD_COLLECTION }
     private Dictionary<QuestType, Quest> questTypeDict = new Dictionary<QuestType, Quest>();
 
     private void Awake() {
@@ -51,6 +51,14 @@ public class CustomerSystem : MonoBehaviour
         Quest advancedFightQuest = new Quest(advancedFightDialogue, advancedFightItems);
         questTypeDict.Add(QuestType.ADVANCED_FIGHT, advancedFightQuest);
 
+        string swordCollectionDialogue = "I'm trying to find every type of sword in the land.";
+        InventorySystem.SellableItem[] swordCollectionItems = new InventorySystem.SellableItem[] {
+            InventorySystem.SellableItem.WOODEN_SWORD,
+            InventorySystem.SellableItem.IRON_SWORD
+        };
+        Quest swordCollectionQuest = new Quest(swordCollectionDialogue, swordCollectionItems);
+        questTypeDict.Add(QuestType.SWORD_COLLECTION, swordCollectionQuest);
+
         string foodDialogue = "I'm so hungry. Got anything to eat around here?";
         InventorySystem.SellableItem[] foodItems = new InventorySystem.SellableItem[] {
             InventorySystem.SellableItem.BREAD
@@ -61,6 +69,23 @@ public class CustomerSystem : MonoBehaviour
 
     private void initializeCustomerTypes()
     {
+        // Peasant
+        InventorySystem.SellableItem[] peasantDesiredItems = new InventorySystem.SellableItem[] {
+            InventorySystem.SellableItem.BREAD,
+        };
+        Quest[] peasantQuests = new Quest[]
+        {
+            questTypeDict[QuestType.FOOD]
+        };
+        string[] peasantDialogue = new string[]
+        {
+            "Just stopping by on some errands.",
+            "I wish I could head out adventuring some day.",
+            "You've got the best bread in town!"
+        };
+        CustomerParameters peasantCustomer = new CustomerParameters(noviceSprite, peasantDesiredItems, peasantQuests, peasantDialogue);
+        customerTypeDict.Add(CustomerType.PEASANT, peasantCustomer);
+
         // Novice
         InventorySystem.SellableItem[] noviceDesiredItems = new InventorySystem.SellableItem[] {
             InventorySystem.SellableItem.BREAD,
@@ -91,7 +116,7 @@ public class CustomerSystem : MonoBehaviour
         Quest[] warriorQuests = new Quest[]
         {
             questTypeDict[QuestType.ADVANCED_FIGHT],
-            questTypeDict[QuestType.FOOD]
+            questTypeDict[QuestType.SWORD_COLLECTION]
         };
         string[] warriorDialogue = new string[]
         {
@@ -104,23 +129,45 @@ public class CustomerSystem : MonoBehaviour
     }
 
     public CustomerType GetRandomCustomerTypeFromDistribution() {
-        CustomerType type;
+
         System.Random rand = GameController.instance.Rand;
         int generatedNumber = rand.Next(0, 100);
-        if (generatedNumber > 80) {
-            type = CustomerType.WARRIOR;
-        }
-        else {
-            type = CustomerType.NOVICE;
-        }
 
-        return type;
+        int currentLevel = LevelManager.instance.CurrentLevel();
+        switch (currentLevel) {
+            case 0:
+                // Always return PEASANT for 1st shop level.
+                return CustomerType.PEASANT;
+            case 1:
+                // Second shop level is 80% NOVICE 20% PEASANT
+                if (generatedNumber > 80) {
+                    return CustomerType.PEASANT;
+                }
+                else {
+                    return CustomerType.NOVICE;
+                }
+            case 2:
+                // Third shop level is 20% WARRIOR, 70% NOVICE, 10% PEASANT
+                if (generatedNumber > 80) {
+                    return CustomerType.WARRIOR;
+                } else if (generatedNumber > 20) {
+                    return CustomerType.NOVICE;
+                } else {
+                    return CustomerType.PEASANT;
+                }
+            default:
+                Debug.Log("OH NO");
+                return CustomerType.PEASANT;
+        }
     }
 
     public GameObject CreateNewCustomer() {
         CustomerType customerType = GetRandomCustomerTypeFromDistribution();
         GameObject customerObject;
         switch (customerType) {
+            case CustomerType.PEASANT:
+                customerObject = Instantiate(novicePrefab, customerParentTransform);
+                break;
             case CustomerType.NOVICE:
                 customerObject = Instantiate(novicePrefab, customerParentTransform);
                 break;
@@ -230,16 +277,24 @@ public class Customer {
         return text;
     }
 
-    private string Specifier(string item) {
-        return item.StartsWith("Iron") ? "an" : "a";
+    private string Specifier(string item) { 
+        if (item.StartsWith("Iron")) {
+            return "an";
+        } if (item.StartsWith("Bread")) {
+            return "some";
+        } else {
+            return "a";
+        }
     }
 
     private string CustomerItemsAsSentence() {
         string item1, item2, item3;
+        string specifier;
         switch (desiredItems.Length) {
             case 1:
                 item1 = InventorySystem.instance.SellableTypeToString(desiredItems[0]);
-                return String.Format("Can I get some {0}s?", item1);
+                specifier = Specifier(item1);
+                return String.Format("Can I get {0} {1}?", specifier, item1);
             case 2:
                 item1 = InventorySystem.instance.SellableTypeToString(desiredItems[0]);
                 item2 = InventorySystem.instance.SellableTypeToString(desiredItems[1]);
@@ -250,7 +305,7 @@ public class Customer {
                 item1 = InventorySystem.instance.SellableTypeToString(desiredItems[0]);
                 item2 = InventorySystem.instance.SellableTypeToString(desiredItems[1]);
                 item3 = InventorySystem.instance.SellableTypeToString(desiredItems[2]);
-                string specifier = Specifier(item3);
+                specifier = Specifier(item3);
                 return String.Format("Looking for {0}, {1}, and {2} {3}.", item1, item2, specifier, item3);
             default:
                 return "I have no idea what I'm doing here.";

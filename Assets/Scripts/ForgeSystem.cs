@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,7 +67,14 @@ public class ForgeSystem : MonoBehaviour {
     }
 
     public Recipe[] GetRecipes() {
-        return recipes;
+        // Limit the Recipes available shown as defined by the LevelSystem.
+        List<Recipe> restrictedRecipes = new List<Recipe>();
+        foreach (Recipe recipe in recipes) {
+            if (LevelManager.instance.HaveAccessToItem(recipe.GetResultItem())) {
+                restrictedRecipes.Add(recipe);
+            }
+        }
+        return restrictedRecipes.ToArray();
     }
 
     public bool IsForgeActive() {

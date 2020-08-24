@@ -62,6 +62,7 @@ public class QuestSystem : MonoBehaviour {
         newQuestPanel.transform.SetSiblingIndex(index);
 
         InventorySystem.instance.SpendMoney(quest.TotalCost());
+        StatsController.instance.AddCosts((int)quest.TotalCost());
 
         ReindexQuests();
     }
@@ -70,6 +71,8 @@ public class QuestSystem : MonoBehaviour {
         QuestPanelUIHandler questPanel = quests[index];
         Quest quest = questPanel.quest;
         InventorySystem.instance.AddMoney(quest.TotalCost());
+        StatsController.instance.AddCosts(-(int)quest.TotalCost());
+
 
         // Cleanup.
         quests.RemoveAt(index);
@@ -95,7 +98,10 @@ public class QuestSystem : MonoBehaviour {
         }
 
         // Place QuestEntryPane at the end of all quests, and show if it is currently hidden.
-        questEntryPanelUI.transform.SetSiblingIndex(quests.Count);
+        // questEntryPanelUI.transform.SetSiblingIndex(quests.Count);
+        // no JK, set it at the beginning, because then it won't move around as quests complete.
+        questEntryPanelUI.transform.SetAsFirstSibling();
+
         // Hide the quest entry panel if we have max quests.
         // Or show it if we don't and it was previously hidden.
         if (quests.Count == MAX_QUESTS) {

@@ -23,6 +23,7 @@ public class InventorySystem : MonoBehaviour {
     public Text ironText;
     public Text wheatText;
 
+    public QuestBoardUIHandler questUI;
     public ForgeUIHandler forgeUI;
     public SellableInventoryUIHandler sellScreneUI;
 
@@ -224,6 +225,7 @@ public class InventorySystem : MonoBehaviour {
         ironText.text = String.Format("{0}", resourceCounts[ResourceType.IRON]);
         wheatText.text = String.Format("{0}", resourceCounts[ResourceType.WHEAT]);
 
+        questUI.RefreshUI();
         forgeUI.RefreshUI();
         sellScreneUI.RefreshUI();
     }

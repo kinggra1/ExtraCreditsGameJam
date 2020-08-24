@@ -1,9 +1,5 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Unity.VisualStudio.Editor;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 

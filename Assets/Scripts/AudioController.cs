@@ -13,6 +13,8 @@ public class AudioController : MonoBehaviour {
     public AudioClip forgeRunningSound;
 
     public AudioClip coinSound;
+    public AudioClip smallCoinSound;
+    public AudioClip customerArriveBell;
     public AudioClip woodSound;
     public AudioClip ironSound;
     public AudioClip wheatSound;
@@ -70,6 +72,14 @@ public class AudioController : MonoBehaviour {
         }
     }
 
+    public void PlayCustomerArrivedBell() {
+        resourceExchangeAudioSource.PlayOneShot(customerArriveBell);
+    }
+
+    public void PlaySmallCoinSound() {
+        PlayRandomlyShiftedSound(smallCoinSound, 0.2f);
+    }
+
     public void PlayPurchaseSound(uint totalSale) {
         resourceExchangeAudioSource.volume = Mathf.Min(totalSale / 5f, 1f);
         resourceExchangeAudioSource.pitch = (Random.Range(0.6f, 1.1f));
@@ -77,6 +87,11 @@ public class AudioController : MonoBehaviour {
     }
 
     private void PlayRandomlyShiftedSound(AudioClip clip) {
+        PlayRandomlyShiftedSound(clip, 1f);
+    }
+
+    private void PlayRandomlyShiftedSound(AudioClip clip, float volume) {
+        resourceExchangeAudioSource.volume = volume;
         resourceExchangeAudioSource.pitch = (Random.Range(0.6f, 1.1f));
         resourceExchangeAudioSource.PlayOneShot(clip);
     }

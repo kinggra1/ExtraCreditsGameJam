@@ -2,17 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
     public static GameController instance;
 
+    private static readonly int DEFAULT_TIME_TO_FIRST_CUSTOMER = 5;
+
     public Image menuBackgroundBlurImage;
+    public GameObject gameIntroCanvas;
     public GameObject ResultsCanvas;
     public GameObject questBoardCanvas;
     public GameObject forgeCanvas;
     public GameObject sellingMenuCanvas;
+    public GameObject winningCanvas;
+    public GameObject losingCanvas;
 
     public GameObject CustomerPrefab;
     
@@ -21,7 +27,7 @@ public class GameController : MonoBehaviour {
     public int MaxTimeBetweenCustomers;
 
     // when the next customer will be spawned
-    private int timeToSpawnNewCustomer = 5;
+    private int timeToSpawnNewCustomer = DEFAULT_TIME_TO_FIRST_CUSTOMER;
 
     public System.Random Rand;
 
@@ -37,14 +43,17 @@ public class GameController : MonoBehaviour {
     void Start() {
         Rand = new System.Random();
 
+        // Special subcanvas that we delete on button press.
+        gameIntroCanvas.SetActive(true);
+        TimeSystem.instance.SetPaused(true);
+
         questBoardCanvas.SetActive(true);
-        questBoardCanvas.transform.localScale = Vector3.zero;
         forgeCanvas.SetActive(true);
-        forgeCanvas.transform.localScale = Vector3.zero;
         ResultsCanvas.SetActive(true);
-        ResultsCanvas.transform.localScale = Vector3.zero;
         sellingMenuCanvas.SetActive(true);
-        sellingMenuCanvas.transform.localScale = Vector3.zero;
+        winningCanvas.SetActive(true);
+        losingCanvas.SetActive(true);
+        CollapseMenusInstantly();
     }
 
     // Update is called once per frame
@@ -60,6 +69,7 @@ public class GameController : MonoBehaviour {
 
     public void SpawnNewCustomer()
     {
+        AudioController.instance.PlayCustomerArrivedBell();
         GameObject newCustomer = CustomerSystem.instance.CreateNewCustomer();
         
         // set next customer spawn time
@@ -67,10 +77,31 @@ public class GameController : MonoBehaviour {
         timeToSpawnNewCustomer += timeUntilNextCustomer;
     }
 
-    public void ShowDailyResults()
-    {
+    private void CollapseMenusInstantly() {
+        questBoardCanvas.transform.localScale = Vector3.zero;
+        forgeCanvas.transform.localScale = Vector3.zero;
+        ResultsCanvas.transform.localScale = Vector3.zero;
+        sellingMenuCanvas.transform.localScale = Vector3.zero;
+        winningCanvas.transform.localScale = Vector3.zero;
+        losingCanvas.transform.localScale = Vector3.zero;
+    }
+
+    private void DestroyOtherMenus() {
+        Destroy(questBoardCanvas.gameObject);
+        Destroy(forgeCanvas.gameObject);
+        Destroy(ResultsCanvas.gameObject);
+        Destroy(sellingMenuCanvas.gameObject);
+        Destroy(winningCanvas.gameObject);
+    }
+
+    public void ShowDailyResults() {
+        foreach (CustomerController customer in GameObject.FindObjectsOfType<CustomerController>()) {
+            Destroy(customer.gameObject);
+        }
+        CollapseMenusInstantly();
         TimeSystem.instance.SetPaused(true);
         LerpInCanvas(ResultsCanvas);
+        ResultsCanvas.GetComponent<ResultsCanvasUIHandler>().ShowToday();
     }
 
     public void HideDailyResults()
@@ -115,10 +146,40 @@ public class GameController : MonoBehaviour {
         LeanTween.alpha(menuBackgroundBlurImage.rectTransform, 0f, 0.2f);
     }
 
+    public void WinGame() {
+        foreach (CustomerController customer in GameObject.FindObjectsOfType<CustomerController>()) {
+            Destroy(customer.gameObject);
+        }
+        CollapseMenusInstantly();
+        TimeSystem.instance.SetPaused(true);
+        LerpInCanvas(winningCanvas);
+    }
+
+    public void LoseGame() {
+        foreach (CustomerController customer in GameObject.FindObjectsOfType<CustomerController>()) {
+            Destroy(customer.gameObject);
+        }
+        DestroyOtherMenus();
+        TimeSystem.instance.SetPaused(true);
+        LerpInCanvas(losingCanvas);
+    }
+
+    public void StartGame() {
+        AudioController.instance.PlayCustomerArrivedBell();
+        TimeSystem.instance.SetPaused(false);
+        Destroy(gameIntroCanvas.gameObject);
+    }
+
+    public void Restart() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     public void GoToNextDay()
     {
         TimeSystem.instance.IncrementDay();
+        StatsController.instance.ResetDailyCounts();
         HideDailyResults();
+        timeToSpawnNewCustomer = DEFAULT_TIME_TO_FIRST_CUSTOMER;
         TimeSystem.instance.SetPaused(false);
     }
 }

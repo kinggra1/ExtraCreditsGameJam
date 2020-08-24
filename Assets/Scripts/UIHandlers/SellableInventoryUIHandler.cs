@@ -18,6 +18,9 @@ public class SellableInventoryUIHandler : MonoBehaviour{
     public Text customerDialogText;
     public Text customerPurchaseHintText;
 
+    public GameObject coinPrefab;
+    public GameObject walletUI;
+
     private Customer customer;
 
     private List<CartItemUIHandler> cartItems = new List<CartItemUIHandler>();
@@ -51,14 +54,16 @@ public class SellableInventoryUIHandler : MonoBehaviour{
             customerDesiredItems.Add(item);
         }
 
+        HashSet<InventorySystem.SellableItem> suppliedItems = new HashSet<InventorySystem.SellableItem>();
         foreach (CartItemUIHandler cartItem in cartItems) {
-            // If the cart has something that the customer doesn't want, the purchase fails.
+            // If the cart has something that the customer doesn't want, the purchase fails immediately.
             if (!customerDesiredItems.Contains(cartItem.recipe.GetResultItem())) {
                 return false;
             }
+            suppliedItems.Add(cartItem.recipe.GetResultItem());
         }
 
-        return true;
+        return suppliedItems.SetEquals(customerDesiredItems);
     }
 
     public bool CartFull() {
@@ -95,8 +100,26 @@ public class SellableInventoryUIHandler : MonoBehaviour{
     }
 
     private void CompleteTheSale() {
-        AudioController.instance.PlayPurchaseSound(CalculateCartValue());
+        uint cartValue = CalculateCartValue();
+        StatsController.instance.AddRevenue(cartValue);
+        StatsController.instance.CustomerServed();
+        AudioController.instance.PlayPurchaseSound(cartValue);
         ShopkeeperController.instance.SendOffCustomer();
+
+        // Spawn a bunch of juicy coins where the sell button was (about) and send to wallet. Mmmmm juice.
+        for (int i = 0; i < cartValue; i++) {
+            GameObject coin = Instantiate(coinPrefab, walletUI.transform);
+            RectTransform rectTransform = coin.GetComponent<RectTransform>();
+            float randomXOffset = UnityEngine.Random.Range(-40, 40);
+            float randomYOffset = UnityEngine.Random.Range(-20, 20);
+            rectTransform.anchoredPosition = new Vector2(-400f + randomXOffset, -250f + randomYOffset);
+            LeanTween
+                .move(rectTransform, Vector3.zero, 0.5f)
+                .setDelay(UnityEngine.Random.Range(0f, 0.3f))
+                .setEaseInOutCubic()
+                .setOnComplete(() => { Destroy(coin); });
+        }
+
         foreach (CartItemUIHandler cartItem in cartItems) {
             Recipe recipe = cartItem.recipe;
             // TODO: Unchecked removal may not be safe.

@@ -20,28 +20,44 @@ public class QuestBoardUIHandler : MonoBehaviour {
     uint pricePerItem;
 
     public Text quantityText;
-    public Dropdown resourceDropdown;
+    public Dropdown resourceDropdown1;
+    public Dropdown resourceDropdown2;
+    public Dropdown resourceDropdown3;
+
     public Text pricePerItemText;
 
     // Start is called before the first frame update
     void Start() {
-        resourceDropdown.onValueChanged.AddListener(delegate {
-            SetResource(resourceDropdown);
+        resourceDropdown1.onValueChanged.AddListener(delegate {
+            SetResource(resourceDropdown1);
         });
-        SetResource(resourceDropdown);
+        SetResource(resourceDropdown1);
+
+        resourceDropdown2.onValueChanged.AddListener(delegate {
+            SetResource(resourceDropdown2);
+        });
+        resourceDropdown3.onValueChanged.AddListener(delegate {
+            SetResource(resourceDropdown3);
+        });
 
         ResetOrderPanel();
     }
 
     // Update is called once per frame
     void Update() {
-        
+
     }
 
     private void ResetOrderPanel() {
         quantity = DEFAULT_QUANTITY;
         pricePerItem = InventorySystem.instance.LookupDefaultPrice(resource);
         RefreshUI();
+    }
+
+    public void UpdateResourcesAvailable() {
+        foreach (ResourceDropdownToggler toggler in GetComponentsInChildren<ResourceDropdownToggler>()) {
+            toggler.UpdateState();
+        }
     }
 
     public void IncrementQuanitity() {
@@ -95,5 +111,26 @@ public class QuestBoardUIHandler : MonoBehaviour {
     public void RefreshUI() {
         quantityText.text = quantity.ToString();
         pricePerItemText.text = String.Format("{0}", pricePerItem);
+
+        resourceDropdown1.gameObject.SetActive(false);
+        resourceDropdown2.gameObject.SetActive(false);
+        resourceDropdown3.gameObject.SetActive(false);
+        switch (LevelManager.instance.CurrentLevel()) {
+            case 0:
+                resourceDropdown1.gameObject.SetActive(true);
+                break;
+            case 1:
+                resourceDropdown2.gameObject.SetActive(true);
+                break;
+            case 2:
+                resourceDropdown3.gameObject.SetActive(true);
+                break;
+            default:
+                resourceDropdown3.gameObject.SetActive(true);
+                break;
+        }
+
+
+        UpdateResourcesAvailable();
     }
 }
