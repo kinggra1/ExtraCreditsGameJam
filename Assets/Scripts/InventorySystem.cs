@@ -24,6 +24,7 @@ public class InventorySystem : MonoBehaviour {
     public Text wheatText;
 
     public ForgeUIHandler forgeUI;
+    public SellableInventoryUIHandler sellScreneUI;
 
     private static readonly uint MAX_RESOURCE = 99;
     private static readonly uint MAX_MONEY = 9999;
@@ -50,7 +51,7 @@ public class InventorySystem : MonoBehaviour {
         // Initialize shop inventory
         sellableItemCounts.Add(SellableItem.BREAD, 5);
 
-        sellableItemCounts.Add(SellableItem.WOODEN_SWORD, 5);
+        sellableItemCounts.Add(SellableItem.WOODEN_SWORD, 2);
         sellableItemCounts.Add(SellableItem.WOODEN_SHIELD, 5);
 
         sellableItemCounts.Add(SellableItem.IRON_SWORD, 5);
@@ -151,6 +152,9 @@ public class InventorySystem : MonoBehaviour {
         RefreshUI();
     }
 
+    public uint GetSellableItemCount(SellableItem item) {
+        return sellableItemCounts[item];
+    }
 
     public bool CanCraft(Recipe recipe) {
         foreach (Ingredient ingredient in recipe.GetIngredients()) {
@@ -167,7 +171,8 @@ public class InventorySystem : MonoBehaviour {
             // Consume all ingredients required.
             SpendResource(ingredient.resource, ingredient.quantity);
         }
-        // TODO: Add new item as defined in recipe to inventory.
+        SellableItem itemType = recipe.GetResultItem();
+        sellableItemCounts[itemType] = sellableItemCounts[itemType] + 1;
         RefreshUI();
     }
 
@@ -182,5 +187,6 @@ public class InventorySystem : MonoBehaviour {
         wheatText.text = String.Format("{0}", resourceCounts[ResourceType.WHEAT]);
 
         forgeUI.RefreshUI();
+        sellScreneUI.RefreshUI();
     }
 }
