@@ -166,11 +166,15 @@ public class InventorySystem : MonoBehaviour {
         return true;
     }
 
-    public void Craft(Recipe recipe) {
+    public void StartCrafting(Recipe recipe) {
         foreach (Ingredient ingredient in recipe.GetIngredients()) {
             // Consume all ingredients required.
             SpendResource(ingredient.resource, ingredient.quantity);
         }
+        RefreshUI();
+    }
+
+    public void FinishCrafting(Recipe recipe) {
         SellableItem itemType = recipe.GetResultItem();
         sellableItemCounts[itemType] = sellableItemCounts[itemType] + 1;
         RefreshUI();

@@ -4,12 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ForgeUIHandler : MonoBehaviour {
-
     public GameObject forgeRecipePanelPrefab;
     public GameObject recipeLayoutGroup;
 
     public Scrollbar scrollbar;
-
     private List<RecipeUIHandler> recipes = new List<RecipeUIHandler>();
 
     // Start is called before the first frame update
