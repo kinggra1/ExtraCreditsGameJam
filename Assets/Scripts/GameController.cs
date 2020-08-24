@@ -180,6 +180,7 @@ public class GameController : MonoBehaviour {
         TimeSystem.instance.IncrementDay();
         StatsController.instance.ResetDailyCounts();
         HideDailyResults();
+        winningCanvas.transform.localScale = Vector3.zero;
         timeToSpawnNewCustomer = DEFAULT_TIME_TO_FIRST_CUSTOMER;
         TimeSystem.instance.SetPaused(false);
     }

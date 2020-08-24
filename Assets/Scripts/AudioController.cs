@@ -73,7 +73,7 @@ public class AudioController : MonoBehaviour {
     }
 
     public void PlayForgeHammerSound() {
-        PlayRandomlyShiftedSound(forgeHammerSound);
+        PlayRandomlyShiftedSound(forgeHammerSound, 0.5f);
     }
 
     public void PlayCustomerArrivedBell() {

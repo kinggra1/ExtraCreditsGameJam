@@ -12118,7 +12118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customerParentTransform: {fileID: 909345664}
   noviceSprite: {fileID: 21300000, guid: 7d21651bb31702643b5560ee5bd0acc7, type: 3}
-  warriorSprite: {fileID: 21300000, guid: c4c548a339b4d41a590928c0c98934a7, type: 3}
+  warriorSprite: {fileID: 21300000, guid: 049e99c6a6d5c554a97a275e23e11bf2, type: 3}
   novicePrefab: {fileID: 3130475906012470593, guid: a96f4d0c824646a4c8a354ce34f89925,
     type: 3}
   warriorPrefab: {fileID: 3130475906012470593, guid: 2c45beeec623df141a9e3e85109240b7,
@@ -13830,12 +13830,12 @@ PrefabInstance:
     - target: {fileID: 5995099245253872757, guid: f872c7284ded7304bb2704fc249ab650,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 247
+      value: 263
       objectReference: {fileID: 0}
     - target: {fileID: 5995099245253872757, guid: f872c7284ded7304bb2704fc249ab650,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -23
+      value: -28
       objectReference: {fileID: 0}
     - target: {fileID: 5995099245253872757, guid: f872c7284ded7304bb2704fc249ab650,
         type: 3}

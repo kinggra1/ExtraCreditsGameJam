@@ -122,6 +122,7 @@ public class CustomerController : MonoBehaviour {
         if (!leaving) {
             if (!customer.hasBeenServed) {
                 unhappyPrompt.SetActive(true);
+                StatsController.instance.CustomerMissed();
                 LeanTween.scale(unhappyPrompt, Vector3.zero, 0.5f).setDelay(2f);
             }
             GameController.instance.HideSellingMenu();

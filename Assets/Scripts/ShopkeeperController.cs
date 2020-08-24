@@ -20,6 +20,7 @@ public class ShopkeeperController : MonoBehaviour
     public void SendOffCustomer()
     {
         takeCarePrompt.SetActive(true);
+        takeCarePrompt.transform.localScale = Vector3.one;
         LeanTween.scale(takeCarePrompt, Vector3.zero, 0.5f).setDelay(2f);
     }
 }

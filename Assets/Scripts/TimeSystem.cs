@@ -44,7 +44,7 @@ public class TimeSystem : MonoBehaviour
 
     void UpdateTimeDisplay()
     {
-        string timeString = $"Day {currentDay}, Time: {(int)currentTime}";
+        string timeString = $"Day {currentDay+1}, Time: {100-(int)currentTime}";
         timeDisplay.text = timeString;
     }
 
