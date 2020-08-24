@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CustomerController : MonoBehaviour {
+    public GameObject unhappyPrompt;
+
     // where to spawn in the next customer
     public int MinXCustomerPos;
     public int MaxXCustomerPos;
@@ -34,6 +36,8 @@ public class CustomerController : MonoBehaviour {
     private int irritatedTime;
     private int angryTime;
 
+    private bool leaving;
+
     private Animator animator;
 
     // Start is called before the first frame update
@@ -52,10 +56,10 @@ public class CustomerController : MonoBehaviour {
             int currentTime = TimeSystem.instance.GetCurrentTime();
             CustomerParameters.Mood currentMood = GetMood();
             if (customer.hasBeenServed) {
-                animator.StartPlayback();
+                animator.SetBool("Idle", false);
                 moveTowardsStartingPos();
             } else if (customer.mood.Equals(CustomerParameters.Mood.MAD)) {
-                animator.StartPlayback();
+                animator.SetBool("Idle", false);
                 moveTowardsStartingPos();
             } else {
                 // Stuff to do if the customer hasn't been helped yet.
@@ -63,7 +67,7 @@ public class CustomerController : MonoBehaviour {
                     moveTowardsStandingPos();
                 }
                 else {
-                    animator.StopPlayback();
+                    animator.SetBool("Idle", true);
                 }
 
                 if (currentMood == CustomerParameters.Mood.HAPPY && currentTime >= neutralTime) {
@@ -80,7 +84,9 @@ public class CustomerController : MonoBehaviour {
     }
 
     public void CustomerClickedOn() {
-        GameController.instance.ShowSellingMenuForCustomer(customer);
+        if (!this.leaving) {
+            GameController.instance.ShowSellingMenuForCustomer(customer);
+        }
     }
 
     public void SetCustomerData(Customer customer)
@@ -117,8 +123,22 @@ public class CustomerController : MonoBehaviour {
     }
 
     void moveTowardsStartingPos() {
+        if (!leaving) {
+            if (!customer.hasBeenServed) {
+                unhappyPrompt.SetActive(true);
+                LeanTween.scale(unhappyPrompt, Vector3.zero, 0.5f).setDelay(2f);
+            }
+            GameController.instance.HideSellingMenu();
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+            leaving = true;
+        }
+
         float step = speed * Time.deltaTime;
         this.gameObject.transform.localPosition = Vector3.MoveTowards(this.gameObject.transform.localPosition, StartPos, step);
+
+        if (Vector3.Distance(transform.localPosition, StartPos) < 10f) {
+            Destroy(this.gameObject);
+        }
     }
 
     CustomerParameters.Mood GetMood()

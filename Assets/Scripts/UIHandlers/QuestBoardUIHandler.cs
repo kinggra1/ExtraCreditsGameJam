@@ -40,7 +40,7 @@ public class QuestBoardUIHandler : MonoBehaviour {
 
     private void ResetOrderPanel() {
         quantity = DEFAULT_QUANTITY;
-        pricePerItem = 0; // TODO: Dynamically set based on dropdown.
+        pricePerItem = InventorySystem.instance.LookupDefaultPrice(resource);
         RefreshUI();
     }
 
@@ -74,9 +74,8 @@ public class QuestBoardUIHandler : MonoBehaviour {
 
     public void SetResource(Dropdown dropdown) {
         resource = InventorySystem.instance.StringToResourceType(dropdown.options[dropdown.value].text);
-
-        // TODO: Based on resource selected, update pricePerItem? Maybe too complex for first gameplay pass.
-
+        pricePerItem = InventorySystem.instance.LookupDefaultPrice(resource);
+        RefreshUI();
     }
 
     private uint NextQuestTotalCost() {

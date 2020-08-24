@@ -43,6 +43,8 @@ public class QuestSystem : MonoBehaviour {
     }
 
     public void AddNewQuest(Quest quest) {
+        AudioController.instance.PlaySoundForResource(quest.resource);
+
         // Parenting to the new Quest to layout group allows the UI to dynamically position it.
         GameObject newQuestPanel = Instantiate(postedQuestUIPrefab, questLayoutGroupUI.transform);
 

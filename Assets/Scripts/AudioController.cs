@@ -54,6 +54,22 @@ public class AudioController : MonoBehaviour {
 
     }
 
+    public void PlaySoundForResource(InventorySystem.ResourceType type) {
+        switch (type) {
+            case InventorySystem.ResourceType.NONE:
+                break;
+            case InventorySystem.ResourceType.WOOD:
+                PlayRandomlyShiftedSound(woodSound);
+                break;
+            case InventorySystem.ResourceType.IRON:
+                PlayRandomlyShiftedSound(ironSound);
+                break;
+            case InventorySystem.ResourceType.WHEAT:
+                PlayRandomlyShiftedSound(wheatSound);
+                break;
+        }
+    }
+
     public void PlayPurchaseSound(uint totalSale) {
         resourceExchangeAudioSource.volume = Mathf.Min(totalSale / 5f, 1f);
         resourceExchangeAudioSource.pitch = (Random.Range(0.6f, 1.1f));

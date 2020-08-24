@@ -86,20 +86,25 @@ public class SellableInventoryUIHandler : MonoBehaviour{
 
     public void SellButtonClicked() {
         if (WillCustomerBuy()) {
-            AudioController.instance.PlayPurchaseSound(CalculateCartValue());
-            foreach (CartItemUIHandler cartItem in cartItems) {
-                Recipe recipe = cartItem.recipe;
-                // TODO: Unchecked removal may not be safe.
-                InventorySystem.instance.SellItem(recipe.GetResultItem(), recipe.GetValue());
-                Destroy(cartItem.gameObject);
-            }
-            cartItems.Clear();
-            InventorySystem.instance.RefreshUI();
+            CompleteTheSale();
         } else {
             customer.IncorrectSaleAttempt();
             RefreshUI();
             // TODO: When Customer doesn't want what's in the cart.
         }
+    }
+
+    private void CompleteTheSale() {
+        AudioController.instance.PlayPurchaseSound(CalculateCartValue());
+        foreach (CartItemUIHandler cartItem in cartItems) {
+            Recipe recipe = cartItem.recipe;
+            // TODO: Unchecked removal may not be safe.
+            InventorySystem.instance.SellItem(recipe.GetResultItem(), recipe.GetValue());
+            Destroy(cartItem.gameObject);
+        }
+        cartItems.Clear();
+        customer.hasBeenServed = true;
+        InventorySystem.instance.RefreshUI();
     }
 
     private uint CalculateCartValue() {

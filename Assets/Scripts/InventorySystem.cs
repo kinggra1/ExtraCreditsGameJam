@@ -90,6 +90,21 @@ public class InventorySystem : MonoBehaviour {
         }
     }
 
+    public uint LookupDefaultPrice(ResourceType type) {
+        switch (type) {
+            case ResourceType.NONE:
+                return 0;
+            case ResourceType.WOOD:
+                return 3;
+            case ResourceType.IRON:
+                return 5;
+            case ResourceType.WHEAT:
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
     public string SellableTypeToString(SellableItem type) {
         switch (type) {
             case SellableItem.NONE:
