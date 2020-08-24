@@ -5,7 +5,7 @@ using UnityEngine;
 public class ForgeSystem : MonoBehaviour {
     public static ForgeSystem instance;
 
-    private static readonly float FORGE_TIME = 10f;
+    private static readonly float DEFAULT_FORGE_TIME = 10f;
 
     public Recipe[] recipes;
 
@@ -28,14 +28,14 @@ public class ForgeSystem : MonoBehaviour {
         if (forgeActive) {
             forgeTimer += Time.deltaTime;
 
-            if (forgeTimer > FORGE_TIME) {
+            if (forgeTimer > currentlyForgingRecipe.GetForgeTime()) {
                 FinishForging();
             }
         }
     }
 
     public float ForgeProgress() {
-        return forgeTimer / FORGE_TIME;
+        return forgeTimer / currentlyForgingRecipe.GetForgeTime();
     }
 
     public void StartForging(Recipe recipe) {

@@ -10,6 +10,8 @@ public class SellableItemUIHandler : MonoBehaviour
 
     public Image resourceImage;
     public Text quantityText;
+    public Text itemName;
+    public Text goldValue;
     public GameObject notEnoughFilter;
 
     private SellableInventoryUIHandler cartSystem;
@@ -19,6 +21,8 @@ public class SellableItemUIHandler : MonoBehaviour
         this.recipe = recipe;
         resourceImage.sprite = IconLookup.instance.ForSellable(recipe.GetResultItem());
         this.quantityText.text = String.Format("{0}", quanitity);
+        this.itemName.text = InventorySystem.instance.SellableTypeToString(recipe.GetResultItem());
+        this.goldValue.text = String.Format("{0}", recipe.GetValue());
 
         SetFaded(quanitity == 0);
     }

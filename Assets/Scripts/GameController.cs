@@ -71,12 +71,12 @@ public class GameController : MonoBehaviour {
     public void ShowDailyResults()
     {
         TimeSystem.instance.SetPaused(true);
-        ResultsCanvas.SetActive(true);
+        LerpInCanvas(ResultsCanvas);
     }
 
     public void HideDailyResults()
     {
-        ResultsCanvas.SetActive(false);
+        LerpOutCanvas(ResultsCanvas);
     }
 
     public void ShowQuestBoard() {
@@ -95,13 +95,11 @@ public class GameController : MonoBehaviour {
         LerpOutCanvas(forgeCanvas);
     }
 
-    public void TEMPSHOWSELLINGMENU() {
-        ShowSellingMenu(10);
-    }
-
-    public void ShowSellingMenu(int moneyAvailable) {
+    public void ShowSellingMenuForCustomer(Customer customer) {
+        // Set the canvas pivot so that it springs forth from the customer. Need to normalize to 0-1 though... TODO
+        // sellingMenuCanvas.GetComponent<RectTransform>().pivot = customer.transform.position;
         LerpInCanvas(sellingMenuCanvas);
-        sellingMenuCanvas.GetComponent<SellableInventoryUIHandler>().SetCustomerData(moneyAvailable);
+        sellingMenuCanvas.GetComponent<SellableInventoryUIHandler>().SetCustomerData(customer);
     }
 
     public void HideSellingMenu() {
@@ -109,8 +107,8 @@ public class GameController : MonoBehaviour {
     }
 
     private void LerpInCanvas(GameObject canvas) {
-        LeanTween.scale(canvas, Vector3.one, 0.2f);
-        LeanTween.alpha(menuBackgroundBlurImage.rectTransform, 0.5f, 0.2f);
+        LeanTween.scale(canvas, Vector3.one, 0.15f);
+        LeanTween.alpha(menuBackgroundBlurImage.rectTransform, 0.6f, 0.15f);
     }
 
     private void LerpOutCanvas(GameObject canvas) {

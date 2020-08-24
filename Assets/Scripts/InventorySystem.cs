@@ -90,6 +90,25 @@ public class InventorySystem : MonoBehaviour {
         }
     }
 
+    public string SellableTypeToString(SellableItem type) {
+        switch (type) {
+            case SellableItem.NONE:
+                return "NULL";
+            case SellableItem.BREAD:
+                return "Bread";
+            case SellableItem.WOODEN_SHIELD:
+                return "Wooden Shield";
+            case SellableItem.WOODEN_SWORD:
+                return "Wooden Sword";
+            case SellableItem.IRON_SHIELD:
+                return "Iron Shield";
+            case SellableItem.IRON_SWORD:
+                return "Iron Sword";
+            default:
+                return "NULL";
+        }
+    }
+
     // Adding may be validating a new quest, so we need to check QuestBoard for all planned quest resources.
     public bool CanAddResource(ResourceType type, uint delta) {
         uint currentCount = resourceCounts[type];

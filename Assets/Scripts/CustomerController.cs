@@ -7,8 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CustomerController : MonoBehaviour
-{
+public class CustomerController : MonoBehaviour {
     // where to spawn in the next customer
     public int MinXCustomerPos;
     public int MaxXCustomerPos;
@@ -48,28 +47,33 @@ public class CustomerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(customer.mood);
         bool paused = TimeSystem.instance.GetPaused();
         if (!paused)
         {
             int currentTime = TimeSystem.instance.GetCurrentTime();
-            Customer.Mood currentMood = GetMood();
+            CustomerParameters.Mood currentMood = GetMood();
             if (this.gameObject.transform.localPosition != standingPos)
             {
                 moveTowardsStandingPos();
             }
-            if (currentMood == Customer.Mood.HAPPY && currentTime >= neutralTime)
+            if (currentMood == CustomerParameters.Mood.HAPPY && currentTime >= neutralTime)
             {
-                SetMood(Customer.Mood.NEUTRAL);
+                SetMood(CustomerParameters.Mood.NEUTRAL);
             }
-            if (currentMood == Customer.Mood.NEUTRAL && currentTime >= irritatedTime)
+            if (currentMood == CustomerParameters.Mood.NEUTRAL && currentTime >= irritatedTime)
             {
-                SetMood(Customer.Mood.IRRITATED);
+                SetMood(CustomerParameters.Mood.IRRITATED);
             }
-            if (currentMood == Customer.Mood.IRRITATED && currentTime >= angryTime)
+            if (currentMood == CustomerParameters.Mood.IRRITATED && currentTime >= angryTime)
             {
-                SetMood(Customer.Mood.MAD);
+                SetMood(CustomerParameters.Mood.MAD);
             }
         }
+    }
+
+    public void CustomerClickedOn() {
+        GameController.instance.ShowSellingMenuForCustomer(customer);
     }
 
     void determineCustomerType()
@@ -102,14 +106,13 @@ public class CustomerController : MonoBehaviour
         this.gameObject.transform.localPosition = Vector3.MoveTowards(this.gameObject.transform.localPosition, standingPos, step);
     }
 
-    Customer.Mood GetMood()
+    CustomerParameters.Mood GetMood()
     {
         return customer.mood;
     }
 
-    void SetMood(Customer.Mood mood)
+    void SetMood(CustomerParameters.Mood mood)
     {
-        Debug.Log(mood);
         customer.mood = mood;
     }
 }

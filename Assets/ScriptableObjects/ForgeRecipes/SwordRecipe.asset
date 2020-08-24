@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: SwordRecipe
   m_EditorClassIdentifier: 
   resultItem: 3
-  saleValue: 5
+  forgeTime: 2
+  saleValue: 7
   ingredients:
   - resource: 1
     quantity: 2

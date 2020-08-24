@@ -8,6 +8,8 @@ public class Recipe : ScriptableObject {
     [SerializeField]
     private InventorySystem.SellableItem resultItem;
     [SerializeField]
+    private float forgeTime;
+    [SerializeField]
     private uint saleValue;
     // Collection of ingredients required to create this recipe
     [SerializeField]
@@ -34,6 +36,10 @@ public class Recipe : ScriptableObject {
 
     public uint GetValue() {
         return saleValue;
+    }
+
+    public float GetForgeTime() {
+        return forgeTime;
     }
 }
 
