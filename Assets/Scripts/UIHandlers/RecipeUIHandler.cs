@@ -7,6 +7,9 @@ public class RecipeUIHandler : MonoBehaviour {
     public Image resultItemImage;
     public GameObject ingredientUIPrefab;
     public GameObject ingredientHorizontalLayout;
+    public GameObject blurPanel;
+    public GameObject invisiblePanel;
+    public Image progressBar;
 
     private Recipe recipe;
     private List<IngredientUIHandler> ingredientPanels = new List<IngredientUIHandler>();
@@ -38,7 +41,7 @@ public class RecipeUIHandler : MonoBehaviour {
 
     public void Craft() {
         if (InventorySystem.instance.CanCraft(recipe)) {
-            InventorySystem.instance.Craft(recipe);
+            ForgeSystem.instance.StartForging(recipe);
         } else {
             // TODO: :^(
         }
@@ -57,11 +60,27 @@ public class RecipeUIHandler : MonoBehaviour {
                 ingredientPanels[i].SetFaded(false);
             }
         }
+        // blur out any recipe that is not actively being forged.
+        if (ForgeSystem.instance.IsForgeActive()) {
+            if (ForgeSystem.instance.ForgingThis(recipe)) {
+                invisiblePanel.SetActive(true);
+            } else {
+                blurPanel.SetActive(true);
+            }
+        } else {
+            blurPanel.SetActive(false);
+            invisiblePanel.SetActive(false);
+        }
         return allValid;
     }
 
     // Update is called once per frame
     void Update() {
-        
+        if (ForgeSystem.instance.ForgingThis(recipe)) {
+            progressBar.gameObject.SetActive(true);
+            progressBar.fillAmount = ForgeSystem.instance.ForgeProgress();
+        } else {
+            progressBar.gameObject.SetActive(false);
+        }
     }
 }

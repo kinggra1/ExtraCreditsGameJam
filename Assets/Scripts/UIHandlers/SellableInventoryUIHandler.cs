@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SellableInventoryUIHandler : MonoBehaviour{
     private static readonly uint CART_SIZE = 3;
@@ -10,6 +12,13 @@ public class SellableInventoryUIHandler : MonoBehaviour{
 
     public GameObject cartPanelLayout;
     public GameObject cartItemPrefab;
+    public Text sellButtonText;
+
+    public Image customerImage;
+    public Text customerDialogText;
+    public Text customerPurchaseHintText;
+
+    private Customer customer;
 
     private List<CartItemUIHandler> cartItems = new List<CartItemUIHandler>();
 
@@ -23,8 +32,14 @@ public class SellableInventoryUIHandler : MonoBehaviour{
         RefreshUI();
     }
 
-    public void SetCustomerData(int moneyAvailable) {
+    public void SetCustomerData(Customer customer) {
+        this.customer = customer;
+        RefreshUI();
+    }
 
+    public bool WillCustomerBuy() {
+        // TODO: Implement logic to match against customer preferences.
+        return true;
     }
 
     public bool CartFull() {
@@ -51,16 +66,18 @@ public class SellableInventoryUIHandler : MonoBehaviour{
     }
 
     public void SellButtonClicked() {
-        uint totalValue = CalculateCartValue();
-        InventorySystem.instance.AddMoney(totalValue);
-        foreach (CartItemUIHandler cartItem in cartItems) {
-            Recipe recipe = cartItem.recipe;
-            // TODO: Unchecked removal may not be safe.
-            InventorySystem.instance.SellItem(recipe.GetResultItem(), recipe.GetValue());
-            Destroy(cartItem.gameObject);
+        if (WillCustomerBuy()) {
+            foreach (CartItemUIHandler cartItem in cartItems) {
+                Recipe recipe = cartItem.recipe;
+                // TODO: Unchecked removal may not be safe.
+                InventorySystem.instance.SellItem(recipe.GetResultItem(), recipe.GetValue());
+                Destroy(cartItem.gameObject);
+            }
+            cartItems.Clear();
+            InventorySystem.instance.RefreshUI();
+        } else {
+            // TODO: When Customer doesn't want what's in the cart.
         }
-        cartItems.Clear();
-        InventorySystem.instance.RefreshUI();
     }
 
     private uint CalculateCartValue() {
@@ -111,6 +128,15 @@ public class SellableInventoryUIHandler : MonoBehaviour{
         // Draw Cart.
         foreach (CartItemUIHandler cartItem in cartItems) {
             // TODO: Do we do anything here?
+        }
+
+        // Set Sell button data to the value of the cart.
+        sellButtonText.text = String.Format("SELL ({0})", CalculateCartValue());
+
+        // Draw Customer Screen data.
+        if (customer != null) {
+            customerDialogText.text = customer.dialogue;
+            customerImage.sprite = customer.sprite;
         }
     }
 }

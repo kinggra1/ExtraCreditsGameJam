@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: ShieldRecipe
   m_EditorClassIdentifier: 
   resultItem: 2
+  forgeTime: 2
   saleValue: 10
   ingredients:
   - resource: 1
-    quantity: 2
-  - resource: 2
-    quantity: 1
+    quantity: 3
