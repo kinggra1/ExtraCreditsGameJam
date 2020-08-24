@@ -5,8 +5,6 @@ using UnityEngine;
 public class AudioController : MonoBehaviour {
     public static AudioController instance;
 
-    public AudioClip consumeSound;
-
     // public AudioClip menuMusic;
     public AudioClip gameplayMusic;
 
@@ -56,16 +54,14 @@ public class AudioController : MonoBehaviour {
 
     }
 
-    public void PlayPurchaseSound(int totalSale) {
+    public void PlayPurchaseSound(uint totalSale) {
         resourceExchangeAudioSource.volume = Mathf.Min(totalSale / 5f, 1f);
-        resourceExchangeAudioSource.clip = coinSound;
         resourceExchangeAudioSource.pitch = (Random.Range(0.6f, 1.1f));
-        resourceExchangeAudioSource.PlayOneShot(consumeSound);
+        resourceExchangeAudioSource.PlayOneShot(coinSound);
     }
 
     private void PlayRandomlyShiftedSound(AudioClip clip) {
-        resourceExchangeAudioSource.clip = clip;
         resourceExchangeAudioSource.pitch = (Random.Range(0.6f, 1.1f));
-        resourceExchangeAudioSource.PlayOneShot(consumeSound);
+        resourceExchangeAudioSource.PlayOneShot(clip);
     }
 }

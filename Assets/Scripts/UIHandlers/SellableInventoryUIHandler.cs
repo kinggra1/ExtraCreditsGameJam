@@ -32,14 +32,21 @@ public class SellableInventoryUIHandler : MonoBehaviour{
         RefreshUI();
     }
 
+    // Using this as new initialization because it is only called when reopening the shopping window.
     public void SetCustomerData(Customer customer) {
         this.customer = customer;
+
+        // Clear out anything that was previously the cart and refresh UI.
+        foreach (CartItemUIHandler cartItem in cartItems) {
+            Destroy(cartItem.gameObject);
+        }
+        cartItems.Clear();
         RefreshUI();
     }
 
     public bool WillCustomerBuy() {
         // TODO: Implement logic to match against customer preferences.
-        return true;
+        return false;
     }
 
     public bool CartFull() {
@@ -67,6 +74,7 @@ public class SellableInventoryUIHandler : MonoBehaviour{
 
     public void SellButtonClicked() {
         if (WillCustomerBuy()) {
+            AudioController.instance.PlayPurchaseSound(CalculateCartValue());
             foreach (CartItemUIHandler cartItem in cartItems) {
                 Recipe recipe = cartItem.recipe;
                 // TODO: Unchecked removal may not be safe.
@@ -76,6 +84,8 @@ public class SellableInventoryUIHandler : MonoBehaviour{
             cartItems.Clear();
             InventorySystem.instance.RefreshUI();
         } else {
+            customer.IncorrectSaleAttempt();
+            RefreshUI();
             // TODO: When Customer doesn't want what's in the cart.
         }
     }
@@ -135,7 +145,7 @@ public class SellableInventoryUIHandler : MonoBehaviour{
 
         // Draw Customer Screen data.
         if (customer != null) {
-            customerDialogText.text = customer.dialogue;
+            customerDialogText.text = customer.CustomerIntroText();
             customerImage.sprite = customer.sprite;
         }
     }

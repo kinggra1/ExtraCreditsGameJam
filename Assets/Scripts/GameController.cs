@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
 
     public Image menuBackgroundBlurImage;
-    public GameObject CustomersCanvas;
     public GameObject ResultsCanvas;
     public GameObject questBoardCanvas;
     public GameObject forgeCanvas;
@@ -61,7 +60,7 @@ public class GameController : MonoBehaviour {
 
     public void SpawnNewCustomer()
     {
-        GameObject newCustomer = Instantiate(CustomerPrefab, CustomersCanvas.transform);
+        GameObject newCustomer = CustomerSystem.instance.CreateNewCustomer();
         
         // set next customer spawn time
         int timeUntilNextCustomer = Rand.Next(MinTimeBetweenCustomers, MaxTimeBetweenCustomers);

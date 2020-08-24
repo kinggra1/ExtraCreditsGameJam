@@ -34,40 +34,47 @@ public class CustomerController : MonoBehaviour {
     private int irritatedTime;
     private int angryTime;
 
+    private Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
         this.gameObject.transform.localPosition = StartPos;
-
-        determineCustomerType();
-        determineMoodTimes();
-        chooseStandingPosition();
+        this.animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(customer.mood);
         bool paused = TimeSystem.instance.GetPaused();
         if (!paused)
         {
             int currentTime = TimeSystem.instance.GetCurrentTime();
             CustomerParameters.Mood currentMood = GetMood();
-            if (this.gameObject.transform.localPosition != standingPos)
-            {
-                moveTowardsStandingPos();
-            }
-            if (currentMood == CustomerParameters.Mood.HAPPY && currentTime >= neutralTime)
-            {
-                SetMood(CustomerParameters.Mood.NEUTRAL);
-            }
-            if (currentMood == CustomerParameters.Mood.NEUTRAL && currentTime >= irritatedTime)
-            {
-                SetMood(CustomerParameters.Mood.IRRITATED);
-            }
-            if (currentMood == CustomerParameters.Mood.IRRITATED && currentTime >= angryTime)
-            {
-                SetMood(CustomerParameters.Mood.MAD);
+            if (customer.hasBeenServed) {
+                animator.StartPlayback();
+                moveTowardsStartingPos();
+            } else if (customer.mood.Equals(CustomerParameters.Mood.MAD)) {
+                animator.StartPlayback();
+                moveTowardsStartingPos();
+            } else {
+                // Stuff to do if the customer hasn't been helped yet.
+                if (Vector3.Distance(this.gameObject.transform.localPosition, standingPos) > 10f) {
+                    moveTowardsStandingPos();
+                }
+                else {
+                    animator.StopPlayback();
+                }
+
+                if (currentMood == CustomerParameters.Mood.HAPPY && currentTime >= neutralTime) {
+                    SetMood(CustomerParameters.Mood.NEUTRAL);
+                }
+                if (currentMood == CustomerParameters.Mood.NEUTRAL && currentTime >= irritatedTime) {
+                    SetMood(CustomerParameters.Mood.IRRITATED);
+                }
+                if (currentMood == CustomerParameters.Mood.IRRITATED && currentTime >= angryTime) {
+                    SetMood(CustomerParameters.Mood.MAD);
+                }
             }
         }
     }
@@ -76,11 +83,14 @@ public class CustomerController : MonoBehaviour {
         GameController.instance.ShowSellingMenuForCustomer(customer);
     }
 
-    void determineCustomerType()
+    public void SetCustomerData(Customer customer)
     {
-        customer = CustomerSystem.instance.GetRandomCustomerFromDistribution();
-        UnityEngine.UI.Image image = this.gameObject.GetComponent<UnityEngine.UI.Image>();
-        image.sprite = customer.sprite;
+        this.customer = customer;
+        determineMoodTimes();
+        chooseStandingPosition();
+        // customer = CustomerSystem.instance.GetRandomCustomerFromDistribution();
+        // UnityEngine.UI.Image image = this.gameObject.GetComponent<UnityEngine.UI.Image>();
+        // image.sprite = customer.sprite;
     }
 
     void determineMoodTimes()
@@ -104,6 +114,11 @@ public class CustomerController : MonoBehaviour {
     {
         float step = speed * Time.deltaTime;
         this.gameObject.transform.localPosition = Vector3.MoveTowards(this.gameObject.transform.localPosition, standingPos, step);
+    }
+
+    void moveTowardsStartingPos() {
+        float step = speed * Time.deltaTime;
+        this.gameObject.transform.localPosition = Vector3.MoveTowards(this.gameObject.transform.localPosition, StartPos, step);
     }
 
     CustomerParameters.Mood GetMood()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using UnityEngine;
@@ -7,8 +8,11 @@ public class CustomerSystem : MonoBehaviour
 {
     public static CustomerSystem instance;
 
+    public Transform customerParentTransform;
     public Sprite noviceSprite;
     public Sprite warriorSprite;
+    public GameObject novicePrefab;
+    public GameObject warriorPrefab;
 
     public enum CustomerType { NOVICE, WARRIOR }
 
@@ -99,8 +103,7 @@ public class CustomerSystem : MonoBehaviour
         customerTypeDict.Add(CustomerType.WARRIOR, warriorCustomer);
     }
 
-    public Customer GetRandomCustomerFromDistribution()
-    {
+    public CustomerType GetRandomCustomerTypeFromDistribution() {
         CustomerType type;
         System.Random rand = GameController.instance.Rand;
         int generatedNumber = rand.Next(0, 100);
@@ -111,7 +114,27 @@ public class CustomerSystem : MonoBehaviour
             type = CustomerType.NOVICE;
         }
 
-        return customerTypeDict[type].RollNewCustomer();
+        return type;
+    }
+
+    public GameObject CreateNewCustomer() {
+        CustomerType customerType = GetRandomCustomerTypeFromDistribution();
+        GameObject customerObject;
+        switch (customerType) {
+            case CustomerType.NOVICE:
+                customerObject = Instantiate(novicePrefab, customerParentTransform);
+                break;
+            case CustomerType.WARRIOR:
+                customerObject = Instantiate(warriorPrefab, customerParentTransform);
+                break;
+            default:
+                customerObject = null;
+                break;
+        }
+
+        Customer custmer = customerTypeDict[customerType].RollNewCustomer();
+        customerObject.GetComponent<CustomerController>().SetCustomerData(custmer);
+        return customerObject;
     }
 
 }
@@ -145,10 +168,10 @@ public class CustomerParameters
         // and must be inferred from Quest-specific dialog.
 
         // 10% chance of being on a Quest.
-        bool isQuesting = Random.value > 0.9f;
+        bool isQuesting = UnityEngine.Random.value > 0.9f;
 
-        Quest quest = quests[Random.Range(0, quests.Length)];
-        string introDialogue = dialogue[Random.Range(0, dialogue.Length)];
+        Quest quest = quests[UnityEngine.Random.Range(0, quests.Length)];
+        string introDialogue = dialogue[UnityEngine.Random.Range(0, dialogue.Length)];
 
         // If they're questing, override their default desired items with hidden Quest goal items.
         desiredItems = isQuesting ? quest.applicableItems : desiredItems;
@@ -160,6 +183,22 @@ public class CustomerParameters
 // Information about a single customer. This object can be given to the controller and also passed around to other systems
 // so that they can react appropriately to the current state of a single Customer.
 public class Customer {
+    private static readonly string[] INCORRECT_SALE_RESPONSES = new string[] {
+        "Mmm, not really what I'm looking for.",
+        "This doesn't all seem necessary.",
+        "Why are you trying to sell me this?",
+        "Yeaaah, I don't think I want that.",
+        "Is this some kind of joke to you?",
+        "Were you even listening to me?",
+        "Why? Why would I want that?",
+        "I think you have me confused with someone else.",
+        "Is it free? I’m not paying for something I don’t need.",
+        "This is not how you get a return customer.",
+        "Bad advice much?",
+        "What? No! How many heroes have you sent to their death?",
+        "I want the good stuff. Not whatever this is…"
+    };
+
     public Sprite sprite;
     public InventorySystem.SellableItem[] desiredItems;
     public bool isQuesting;
@@ -175,6 +214,48 @@ public class Customer {
         this.isQuesting = isQuesting;
         this.quest = quest;
         this.dialogue = dialogue;
+    }
+
+    public void IncorrectSaleAttempt() {
+        dialogue = INCORRECT_SALE_RESPONSES[UnityEngine.Random.Range(0, INCORRECT_SALE_RESPONSES.Length)];
+    }
+
+    public string CustomerIntroText() {
+        string text = this.dialogue;
+        if (this.isQuesting) {
+            text += "\n\n" + this.quest.description;
+        }
+        else {
+            text += "\n\n" + CustomerItemsAsSentence();
+        }
+        return text;
+    }
+
+    private string Specifier(string item) {
+        return item.StartsWith("Iron") ? "an" : "a";
+    }
+
+    private string CustomerItemsAsSentence() {
+        string item1, item2, item3;
+        switch (desiredItems.Length) {
+            case 1:
+                item1 = InventorySystem.instance.SellableTypeToString(desiredItems[0]);
+                return String.Format("Can I get some {0}s?", item1);
+            case 2:
+                item1 = InventorySystem.instance.SellableTypeToString(desiredItems[0]);
+                item2 = InventorySystem.instance.SellableTypeToString(desiredItems[1]);
+                string specifier1 = Specifier(item1);
+                string specifier2 = Specifier(item2);
+                return String.Format("I want {0} {1} and {2} {3}.", specifier1, item1, specifier2, item2);
+            case 3:
+                item1 = InventorySystem.instance.SellableTypeToString(desiredItems[0]);
+                item2 = InventorySystem.instance.SellableTypeToString(desiredItems[1]);
+                item3 = InventorySystem.instance.SellableTypeToString(desiredItems[2]);
+                string specifier = Specifier(item3);
+                return String.Format("Looking for {0}, {1}, and {2} {3}.", item1, item2, specifier, item3);
+            default:
+                return "I have no idea what I'm doing here.";
+        }
     }
 }
 

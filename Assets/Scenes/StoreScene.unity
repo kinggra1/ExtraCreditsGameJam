@@ -5799,7 +5799,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 36
+    m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -7225,7 +7225,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuBackgroundBlurImage: {fileID: 1737700492}
-  CustomersCanvas: {fileID: 909345663}
   ResultsCanvas: {fileID: 237887584}
   questBoardCanvas: {fileID: 772969184}
   forgeCanvas: {fileID: 852106067}
@@ -7281,8 +7280,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dbc003cb6e151f45a6c8fd6cd390d5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noviceSprite: {fileID: 21300000, guid: 5f7fa9a7940a64e79b5a42d9f661d42c, type: 3}
+  customerParentTransform: {fileID: 909345664}
+  noviceSprite: {fileID: 21300000, guid: 7d21651bb31702643b5560ee5bd0acc7, type: 3}
   warriorSprite: {fileID: 21300000, guid: c4c548a339b4d41a590928c0c98934a7, type: 3}
+  novicePrefab: {fileID: 3130475906012470593, guid: a96f4d0c824646a4c8a354ce34f89925,
+    type: 3}
+  warriorPrefab: {fileID: 3130475906012470593, guid: 2c45beeec623df141a9e3e85109240b7,
+    type: 3}
 --- !u!114 &1911168870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7295,11 +7299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67c6210635d9af8468d9ddedfc980641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  consumeSound: {fileID: 0}
   gameplayMusic: {fileID: 0}
   backgroundAmbiance: {fileID: 0}
   forgeRunningSound: {fileID: 0}
-  coinSound: {fileID: 0}
+  coinSound: {fileID: 8300000, guid: dd1d1da3199f455469f8e0727da8bc4e, type: 3}
   woodSound: {fileID: 0}
   ironSound: {fileID: 0}
   wheatSound: {fileID: 0}
