@@ -71,9 +71,10 @@ public class GameController : MonoBehaviour {
     {
         AudioController.instance.PlayCustomerArrivedBell();
         GameObject newCustomer = CustomerSystem.instance.CreateNewCustomer();
-        
+
         // set next customer spawn time
-        int timeUntilNextCustomer = Rand.Next(MinTimeBetweenCustomers, MaxTimeBetweenCustomers);
+        int delayModifier = (int)LevelManager.instance.GetDelayModifier();
+        int timeUntilNextCustomer = Rand.Next(MinTimeBetweenCustomers - delayModifier, MaxTimeBetweenCustomers - delayModifier);
         timeToSpawnNewCustomer += timeUntilNextCustomer;
     }
 

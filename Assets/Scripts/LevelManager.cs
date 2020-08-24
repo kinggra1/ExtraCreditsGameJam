@@ -44,10 +44,10 @@ public class LevelManager : MonoBehaviour {
         1000
     };
 
-    private uint[] minDelays = new uint[] {
-        20,
-        15,
-        10
+    private uint[] delayModifiers = new uint[] {
+        0,
+        3,
+        6
     };
 
     private void Awake() {
@@ -77,6 +77,10 @@ public class LevelManager : MonoBehaviour {
             currentLevel++;
             InventorySystem.instance.RefreshUI();
         }
+    }
+
+    public uint GetDelayModifier() {
+        return delayModifiers[currentLevel];
     }
 
     public uint CurrentGuildFee() {

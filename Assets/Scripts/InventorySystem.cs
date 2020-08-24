@@ -45,18 +45,18 @@ public class InventorySystem : MonoBehaviour {
         money = 100;
 
         // Initialize default resource values
-        resourceCounts.Add(ResourceType.WOOD, 10);
-        resourceCounts.Add(ResourceType.IRON, 10);
+        resourceCounts.Add(ResourceType.WOOD, 0);
+        resourceCounts.Add(ResourceType.IRON, 0);
         resourceCounts.Add(ResourceType.WHEAT, 10);
 
         // Initialize shop inventory
         sellableItemCounts.Add(SellableItem.BREAD, 5);
 
         sellableItemCounts.Add(SellableItem.WOODEN_SWORD, 2);
-        sellableItemCounts.Add(SellableItem.WOODEN_SHIELD, 5);
+        sellableItemCounts.Add(SellableItem.WOODEN_SHIELD, 2);
 
-        sellableItemCounts.Add(SellableItem.IRON_SWORD, 5);
-        sellableItemCounts.Add(SellableItem.IRON_SHIELD, 5);
+        sellableItemCounts.Add(SellableItem.IRON_SWORD, 2);
+        sellableItemCounts.Add(SellableItem.IRON_SHIELD, 2);
     }
 
     private void Start() {

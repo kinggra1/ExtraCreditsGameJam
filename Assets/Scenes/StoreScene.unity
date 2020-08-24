@@ -12145,7 +12145,7 @@ MonoBehaviour:
   ironSound: {fileID: 8300000, guid: f08eeb4e96fd16f4bb7cffb943662acf, type: 3}
   wheatSound: {fileID: 8300000, guid: 826e80cb0935a9044b7b089a9192b79c, type: 3}
   questPaperSound: {fileID: 0}
-  forgeHammerSound: {fileID: 0}
+  forgeHammerSound: {fileID: 8300000, guid: 515b957ec050b1e4b9ad9a7ccdd80362, type: 3}
 --- !u!114 &1911168871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12214,7 +12214,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1911573268}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
