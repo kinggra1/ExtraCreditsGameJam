@@ -48,6 +48,7 @@ public class ForgeSystem : MonoBehaviour {
         currentlyForgingRecipe = recipe;
         forgeTimer = 0f;
         forgeAnimationOverlay.SetActive(true);
+        AudioController.instance.PlayForgeHammerSound();
         InventorySystem.instance.StartCrafting(recipe);
     }
 

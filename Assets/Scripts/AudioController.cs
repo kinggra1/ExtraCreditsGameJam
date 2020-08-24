@@ -19,7 +19,7 @@ public class AudioController : MonoBehaviour {
     public AudioClip ironSound;
     public AudioClip wheatSound;
     public AudioClip questPaperSound;
-    public AudioClip forgeItemSound;
+    public AudioClip forgeHammerSound;
 
     private AudioSource resourceExchangeAudioSource;
     private AudioSource musicAudioSource;
@@ -70,6 +70,10 @@ public class AudioController : MonoBehaviour {
                 PlayRandomlyShiftedSound(wheatSound);
                 break;
         }
+    }
+
+    public void PlayForgeHammerSound() {
+        PlayRandomlyShiftedSound(forgeHammerSound);
     }
 
     public void PlayCustomerArrivedBell() {
