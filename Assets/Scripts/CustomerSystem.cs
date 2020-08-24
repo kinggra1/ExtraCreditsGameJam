@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using UnityEngine;
 
 public class CustomerSystem : MonoBehaviour
@@ -113,10 +114,14 @@ public class CustomerSystem : MonoBehaviour
 
 public class Customer
 {
+    public enum Mood { HAPPY, NEUTRAL, IRRITATED, MAD }
+
     public Sprite sprite;
     public InventorySystem.SellableItem[] desiredItems;
     public Quest[] quests;
     public string[] dialogue;
+    public Mood mood;
+    public bool hasBeenServed;
 
     public Customer(Sprite sprite, InventorySystem.SellableItem[] desiredItems, Quest[] quests, string[] dialogue)
     {
@@ -124,6 +129,8 @@ public class Customer
         this.desiredItems = desiredItems;
         this.quests = quests;
         this.dialogue = dialogue;
+        this.mood = Mood.HAPPY;
+        this.hasBeenServed = false;
     }
 }
 

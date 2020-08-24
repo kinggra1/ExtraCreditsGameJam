@@ -94,3 +94,4 @@ MonoBehaviour:
   MaxYCustomerPos: -200
   speed: 150
   StartPos: {x: -1000, y: -300, z: 0}
+  MaxWaitTime: 24
