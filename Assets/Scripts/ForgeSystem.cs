@@ -7,6 +7,8 @@ public class ForgeSystem : MonoBehaviour {
 
     private static readonly float DEFAULT_FORGE_TIME = 10f;
 
+    public GameObject forgeAnimationOverlay;
+
     public Recipe[] recipes;
 
     private float forgeTimer;
@@ -19,6 +21,8 @@ public class ForgeSystem : MonoBehaviour {
             return;
         }
         instance = this;
+
+        forgeAnimationOverlay.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,6 +46,7 @@ public class ForgeSystem : MonoBehaviour {
         forgeActive = true;
         currentlyForgingRecipe = recipe;
         forgeTimer = 0f;
+        forgeAnimationOverlay.SetActive(true);
         InventorySystem.instance.StartCrafting(recipe);
     }
 
@@ -49,6 +54,7 @@ public class ForgeSystem : MonoBehaviour {
         forgeActive = false;
         InventorySystem.instance.FinishCrafting(currentlyForgingRecipe);
         currentlyForgingRecipe = null;
+        forgeAnimationOverlay.SetActive(false);
     }
 
     public bool ForgingThis(Recipe recipe) {

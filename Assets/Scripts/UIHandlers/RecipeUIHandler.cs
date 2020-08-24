@@ -68,8 +68,12 @@ public class RecipeUIHandler : MonoBehaviour {
                 blurPanel.SetActive(true);
             }
         } else {
-            blurPanel.SetActive(false);
             invisiblePanel.SetActive(false);
+            if (!allValid) {
+                blurPanel.SetActive(true);
+            } else {
+                blurPanel.SetActive(false);
+            }
         }
         return allValid;
     }

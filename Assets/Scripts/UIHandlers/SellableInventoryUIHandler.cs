@@ -46,7 +46,19 @@ public class SellableInventoryUIHandler : MonoBehaviour{
 
     public bool WillCustomerBuy() {
         // TODO: Implement logic to match against customer preferences.
-        return false;
+        HashSet<InventorySystem.SellableItem> customerDesiredItems = new HashSet<InventorySystem.SellableItem>();
+        foreach (InventorySystem.SellableItem item in customer.desiredItems) {
+            customerDesiredItems.Add(item);
+        }
+
+        foreach (CartItemUIHandler cartItem in cartItems) {
+            // If the cart has something that the customer doesn't want, the purchase fails.
+            if (!customerDesiredItems.Contains(cartItem.recipe.GetResultItem())) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public bool CartFull() {

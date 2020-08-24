@@ -8,6 +8,7 @@ public class ForgeUIHandler : MonoBehaviour {
     public GameObject recipeLayoutGroup;
 
     public Scrollbar scrollbar;
+
     private List<RecipeUIHandler> recipes = new List<RecipeUIHandler>();
 
     // Start is called before the first frame update

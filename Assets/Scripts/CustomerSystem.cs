@@ -194,7 +194,6 @@ public class Customer {
         "I think you have me confused with someone else.",
         "Is it free? I’m not paying for something I don’t need.",
         "This is not how you get a return customer.",
-        "Bad advice much?",
         "What? No! How many heroes have you sent to their death?",
         "I want the good stuff. Not whatever this is…"
     };
